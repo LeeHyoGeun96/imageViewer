@@ -14,26 +14,26 @@ type ResponsiveRatios = {
 
 interface ImageViewerProps {
   currentIndex: number;
-  totalImages: number;
   onIndexChange: (index: number) => void;
-  getImagePath: (index: number, isThumb?: boolean) => string;
   thumbnailMetadata?: ImagesMetadataResponse;
-  isLoaded?: boolean;
   aspectRatio?: AspectRatio;
   responsiveRatios?: ResponsiveRatios;
   containerClass?: string;
+  totalImagesNumber: number;
+  mainImageIsLoaded?: boolean;
+  currentImageSrc?: string;
 }
 
 export default function ImageViewer({
   currentIndex,
-  totalImages,
+  totalImagesNumber,
   onIndexChange,
-  getImagePath,
   thumbnailMetadata = { images: [], totalImages: 0 },
-  isLoaded = false,
+  mainImageIsLoaded = false,
   aspectRatio = "video",
   responsiveRatios = {},
   containerClass = "h-[500px]",
+  currentImageSrc = "",
 }: ImageViewerProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [loadedThumbnails, setLoadedThumbnails] = useState<
@@ -82,12 +82,12 @@ export default function ImageViewer({
   };
 
   const handlePrev = useCallback(() => {
-    onIndexChange((currentIndex - 1 + totalImages) % totalImages);
-  }, [onIndexChange, totalImages, currentIndex]);
+    onIndexChange((currentIndex - 1 + totalImagesNumber) % totalImagesNumber);
+  }, [onIndexChange, totalImagesNumber, currentIndex]);
 
   const handleNext = useCallback(() => {
-    onIndexChange((currentIndex + 1) % totalImages);
-  }, [onIndexChange, totalImages, currentIndex]);
+    onIndexChange((currentIndex + 1) % totalImagesNumber);
+  }, [onIndexChange, totalImagesNumber, currentIndex]);
 
   // 키보드 이벤트 처리 추가
   useEffect(() => {
@@ -148,7 +148,7 @@ export default function ImageViewer({
   };
 
   const renderThumbnails = () => {
-    return Array.from({ length: totalImages }).map((_, index) => {
+    return Array.from({ length: totalImagesNumber }).map((_, index) => {
       const isLoaded = loadedThumbnails.has(index);
       const thumbnailData = loadedThumbnails.get(index);
 
@@ -176,8 +176,6 @@ export default function ImageViewer({
     });
   };
 
-  console.log(containerClass);
-
   return (
     <section className="relative rounded-lg overflow-hidden">
       {/* 이미지 크기 유지를 위한 컨테이너 */}
@@ -186,10 +184,10 @@ export default function ImageViewer({
           aspectRatio === "auto" ? "" : getAspectRatioClass()
         } ${containerClass}`}
       >
-        {isLoaded ? (
+        {mainImageIsLoaded ? (
           <TransformViwer
-            imageSrc={getImagePath(currentIndex)}
-            isLoaded={isLoaded}
+            imageSrc={currentImageSrc}
+            isLoaded={mainImageIsLoaded}
           />
         ) : (
           <Skeleton />

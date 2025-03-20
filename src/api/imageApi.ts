@@ -22,7 +22,7 @@ export const fetchAllImagesMetadata =
   async (): Promise<ImagesMetadataResponse> => {
     const images = Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
       id: i,
-      src: createImagePath(i, true),
+      src: createImagePath(i),
       alt: `자동차 이미지 ${i + 1}`,
     }));
 

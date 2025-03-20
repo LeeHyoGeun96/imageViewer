@@ -1,4 +1,3 @@
-import React from "react";
 import {
   TransformWrapper,
   TransformComponent,
@@ -35,14 +34,14 @@ const TransformViwer = ({ imageSrc, alt, isLoaded }: TransformViwerProps) => {
     >
       {() => (
         <>
-          <div className="relative">
+          <div className="relative w-full h-full bg-red-500">
             <Controls />
             <TransformComponent>
               {isLoaded ? (
                 <img
                   src={imageSrc}
                   alt={alt}
-                  className="max-w-full max-h-full object-contain"
+                  className="w-full h-full object-contain"
                 />
               ) : (
                 <div>Loading...</div>
