@@ -23,36 +23,36 @@ interface TransformViwerProps {
   isLoaded: boolean;
 }
 
-const TransformViwer = React.memo(
-  ({ imageSrc, alt, isLoaded }: TransformViwerProps) => {
-    // 내부 useEffect 제거 - 이미지 상태를 외부에서만 관리
-
-    return (
-      <TransformWrapper
-        initialScale={1}
-        initialPositionX={200}
-        initialPositionY={100}
-        wheel={{
-          step: 100,
-        }}
-      >
-        {() => (
-          <>
-            <div className="relative">
-              <Controls />
-              <TransformComponent>
-                {isLoaded ? (
-                  <img src={imageSrc} alt={alt} />
-                ) : (
-                  <div>Loading...</div>
-                )}
-              </TransformComponent>
-            </div>
-          </>
-        )}
-      </TransformWrapper>
-    );
-  }
-);
+const TransformViwer = ({ imageSrc, alt, isLoaded }: TransformViwerProps) => {
+  return (
+    <TransformWrapper
+      initialScale={1}
+      initialPositionX={200}
+      initialPositionY={100}
+      wheel={{
+        step: 100,
+      }}
+    >
+      {() => (
+        <>
+          <div className="relative">
+            <Controls />
+            <TransformComponent>
+              {isLoaded ? (
+                <img
+                  src={imageSrc}
+                  alt={alt}
+                  className="max-w-full max-h-full object-contain"
+                />
+              ) : (
+                <div>Loading...</div>
+              )}
+            </TransformComponent>
+          </div>
+        </>
+      )}
+    </TransformWrapper>
+  );
+};
 
 export default TransformViwer;

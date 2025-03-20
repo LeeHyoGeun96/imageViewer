@@ -1,6 +1,16 @@
 import { useEffect, useState, useCallback } from "react";
 import TransformViwer from "./reactZoomPanPinch/TransformViwer";
 import { ImagesMetadataResponse, ImageData } from "../api/imageApi";
+import { Skeleton } from "./UI/Skeleton";
+
+type AspectRatio = "square" | "video" | "portrait" | "cinema" | "auto";
+
+type ResponsiveRatios = {
+  sm?: AspectRatio;
+  md?: AspectRatio;
+  lg?: AspectRatio;
+  xl?: AspectRatio;
+};
 
 interface ImageViewerProps {
   currentIndex: number;
@@ -9,6 +19,9 @@ interface ImageViewerProps {
   getImagePath: (index: number, isThumb?: boolean) => string;
   thumbnailMetadata?: ImagesMetadataResponse;
   isLoaded?: boolean;
+  aspectRatio?: AspectRatio;
+  responsiveRatios?: ResponsiveRatios;
+  containerClass?: string;
 }
 
 export default function ImageViewer({
@@ -18,11 +31,55 @@ export default function ImageViewer({
   getImagePath,
   thumbnailMetadata = { images: [], totalImages: 0 },
   isLoaded = false,
+  aspectRatio = "video",
+  responsiveRatios = {},
+  containerClass = "h-[500px]",
 }: ImageViewerProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [loadedThumbnails, setLoadedThumbnails] = useState<
     Map<number, ImageData>
   >(new Map());
+
+  const getAspectClass = (ratio: AspectRatio): string => {
+    switch (ratio) {
+      case "square":
+        return "aspect-square";
+      case "video":
+        return "aspect-video";
+      case "portrait":
+        return "aspect-[3/4]";
+      case "cinema":
+        return "aspect-[21/9]";
+      case "auto":
+        return "";
+      default:
+        return "";
+    }
+  };
+
+  const getAspectRatioClass = () => {
+    // 기본 비율 클래스 획득
+    const baseClass = getAspectClass(aspectRatio);
+
+    // 반응형 비율 클래스 획득
+    const smClass = responsiveRatios.sm
+      ? `sm:${getAspectClass(responsiveRatios.sm)}`
+      : "";
+    const mdClass = responsiveRatios.md
+      ? `md:${getAspectClass(responsiveRatios.md)}`
+      : "";
+    const lgClass = responsiveRatios.lg
+      ? `lg:${getAspectClass(responsiveRatios.lg)}`
+      : "";
+    const xlClass = responsiveRatios.xl
+      ? `xl:${getAspectClass(responsiveRatios.xl)}`
+      : "";
+
+    // 모든 클래스 결합
+    return [baseClass, smClass, mdClass, lgClass, xlClass]
+      .filter(Boolean)
+      .join(" ");
+  };
 
   const handlePrev = useCallback(() => {
     onIndexChange((currentIndex - 1 + totalImages) % totalImages);
@@ -98,7 +155,7 @@ export default function ImageViewer({
       return (
         <div
           key={index}
-          className={`thumbnail-item cursor-pointer transition-all p-1 ${
+          className={`cursor-pointer p-1 aspect-[4/3] ${
             currentIndex === index ? "border-2 border-blue-500" : ""
           }`}
           onClick={() => handleThumbnailClick(index)}
@@ -112,22 +169,31 @@ export default function ImageViewer({
             />
           ) : (
             // 썸네일이 아직 로드되지 않은 경우
-            <div className="w-full aspect-square bg-gray-200 flex items-center justify-center">
-              <span className="text-xs text-gray-500">로딩 중...</span>
-            </div>
+            <Skeleton spinnerSize={10} />
           )}
         </div>
       );
     });
   };
 
+  console.log(containerClass);
+
   return (
     <section className="relative rounded-lg overflow-hidden">
-      <div>
-        <TransformViwer
-          imageSrc={getImagePath(currentIndex)}
-          isLoaded={isLoaded}
-        />
+      {/* 이미지 크기 유지를 위한 컨테이너 */}
+      <div
+        className={`w-full bg-gray-100 ${
+          aspectRatio === "auto" ? "" : getAspectRatioClass()
+        } ${containerClass}`}
+      >
+        {isLoaded ? (
+          <TransformViwer
+            imageSrc={getImagePath(currentIndex)}
+            isLoaded={isLoaded}
+          />
+        ) : (
+          <Skeleton />
+        )}
       </div>
       {/* 확장 버튼 */}
       <button

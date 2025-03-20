@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import "./App.css";
+import "./index.css";
 import ImageViewer from "./components/ImageViewer";
 import {
   fetchAllThumbnailMetadata,
@@ -67,8 +67,8 @@ function App() {
 
   return (
     <>
-      <main>
-        <section>
+      <main className="container  flex-col  md:flex-row">
+        <section className="md:flex-3">
           <ImageViewer
             currentIndex={currentIndex}
             totalImages={TOTAL_IMAGES}
@@ -76,11 +76,11 @@ function App() {
             getImagePath={getImagePath}
             thumbnailMetadata={thumbnailMetadata}
             isLoaded={loadedImages.has(getImagePath(currentIndex))}
+            aspectRatio="video"
+            containerClass=""
           />
         </section>
-        <section>
-          <div className="border-1 border-red-500">fsefes</div>
-        </section>
+        <section className="md:flex-1 bg-blue-500 min-h-[500px]"></section>
       </main>
     </>
   );
