@@ -1,3 +1,4 @@
+import React from "react";
 import {
   TransformWrapper,
   TransformComponent,
@@ -17,32 +18,41 @@ const Controls = () => {
 };
 
 interface TransformViwerProps {
-  imageSrc: string; // 이미지 경로를 props로 받음
-  alt?: string; // 대체 텍스트(옵션)
+  imageSrc: string;
+  alt?: string;
+  isLoaded: boolean;
 }
 
-const TransformViwer = ({ imageSrc, alt }: TransformViwerProps) => {
-  return (
-    <TransformWrapper
-      initialScale={1}
-      initialPositionX={200}
-      initialPositionY={100}
-      wheel={{
-        step: 100,
-      }}
-    >
-      {() => (
-        <>
-          <div className="relative">
-            <Controls />
-            <TransformComponent>
-              <img src={imageSrc} alt={alt} />
-            </TransformComponent>
-          </div>
-        </>
-      )}
-    </TransformWrapper>
-  );
-};
+const TransformViwer = React.memo(
+  ({ imageSrc, alt, isLoaded }: TransformViwerProps) => {
+    // 내부 useEffect 제거 - 이미지 상태를 외부에서만 관리
+
+    return (
+      <TransformWrapper
+        initialScale={1}
+        initialPositionX={200}
+        initialPositionY={100}
+        wheel={{
+          step: 100,
+        }}
+      >
+        {() => (
+          <>
+            <div className="relative">
+              <Controls />
+              <TransformComponent>
+                {isLoaded ? (
+                  <img src={imageSrc} alt={alt} />
+                ) : (
+                  <div>Loading...</div>
+                )}
+              </TransformComponent>
+            </div>
+          </>
+        )}
+      </TransformWrapper>
+    );
+  }
+);
 
 export default TransformViwer;
