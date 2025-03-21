@@ -1,20 +1,6 @@
-import {
-  TransformWrapper,
-  TransformComponent,
-  useControls,
-} from "react-zoom-pan-pinch";
-
-const Controls = () => {
-  const { zoomIn, zoomOut, resetTransform } = useControls();
-
-  return (
-    <div className="flex gap-2 tools absolute bottom-0 right-0 z-10">
-      <button onClick={() => zoomIn()}>+</button>
-      <button onClick={() => zoomOut()}>-</button>
-      <button onClick={() => resetTransform()}>x</button>
-    </div>
-  );
-};
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { FiPlus, FiMinus } from "react-icons/fi";
+import { IoReloadSharp } from "react-icons/io5";
 
 interface TransformViwerProps {
   imageSrc: string;
@@ -22,33 +8,60 @@ interface TransformViwerProps {
   isLoaded: boolean;
 }
 
-const TransformViwer = ({ imageSrc, alt, isLoaded }: TransformViwerProps) => {
+const TransformViwer = ({ imageSrc, alt }: TransformViwerProps) => {
   return (
     <TransformWrapper
       initialScale={1}
       initialPositionX={200}
       initialPositionY={100}
-      wheel={{
-        step: 100,
-      }}
+      disablePadding={true}
     >
-      {() => (
-        <>
-          <div className="relative w-full h-full bg-red-500">
-            <Controls />
-            <TransformComponent>
-              {isLoaded ? (
-                <img
-                  src={imageSrc}
-                  alt={alt}
-                  className="w-full h-full object-contain"
-                />
-              ) : (
-                <div>Loading...</div>
-              )}
-            </TransformComponent>
+      {({ zoomIn, zoomOut, resetTransform }) => (
+        <div className="absolute inset-0 w-full h-full ">
+          <div className="flex gap-1 tools absolute bottom-4 right-4 z-10 bg-black/50 rounded">
+            <button
+              aria-label="확대"
+              className="text-white bg-black/70 hover:bg-black/50 rounded  p-2"
+              onClick={() => zoomIn()}
+            >
+              <FiPlus />
+            </button>
+            <button
+              aria-label="축소"
+              className="text-white bg-black/70 hover:bg-black/50 rounded  p-2"
+              onClick={() => zoomOut()}
+            >
+              <FiMinus />
+            </button>
+            <button
+              aria-label="배율 초기화"
+              className="text-white bg-black/70 hover:bg-black/50 rounded  p-2"
+              onClick={() => resetTransform()}
+            >
+              <IoReloadSharp />
+            </button>
           </div>
-        </>
+          <TransformComponent
+            wrapperStyle={{
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
+            }}
+            contentStyle={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={imageSrc}
+              alt={alt}
+              className="w-full h-full object-cover"
+            />
+          </TransformComponent>
+        </div>
       )}
     </TransformWrapper>
   );

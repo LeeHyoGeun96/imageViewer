@@ -64,14 +64,13 @@ function App() {
             currentIndex={currentIndex}
             onIndexChange={handleIndexChange}
             thumbnailMetadata={thumbnailMetadata}
-            aspectRatio="video"
-            containerClass=""
             totalImagesNumber={totalImagesNumber}
             currentImageSrc={imageMetadata?.images[currentIndex].src}
             mainImageIsLoaded={loadedImages.has(currentIndex)}
+            containerClass=""
           />
         </section>
-        <section className="md:flex-1 bg-blue-500 min-h-[500px]"></section>
+        <section className="md:flex-1 bg-gray-100 rounded-lg border-2 border-gray-200 min-h-[500px]"></section>
       </main>
     </>
   );
