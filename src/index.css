@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@tailwind base;
 @layer base {
   html,
   body,
@@ -9,16 +8,38 @@
   }
 }
 
-@tailwind components;
 @layer components {
   .container {
     @apply flex max-w-4xl mx-auto;
   }
+  .control-visibility {
+    @apply transition-opacity duration-150 opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-focus-within:opacity-100 focus:opacity-100;
+  }
 }
 
-@tailwind utilities;
 @layer utilities {
   .bg-brand {
     background-color: #3490dc;
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

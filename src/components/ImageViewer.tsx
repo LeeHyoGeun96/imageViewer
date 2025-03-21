@@ -32,7 +32,6 @@ export default function ImageViewer({
     Map<number, ImageData>
   >(new Map());
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [controlsVisible, setControlsVisible] = useState(false);
 
   // Refs
   const containerRef = useRef<HTMLElement>(null);
@@ -41,18 +40,6 @@ export default function ImageViewer({
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
   const prevButtonRef = useRef<HTMLButtonElement>(null);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
-
-  // 컨트롤 가시성 관리
-  const showControls = () => {
-    setControlsVisible(true);
-  };
-
-  const hideControls = () => {
-    // 포커스가 컨테이너 내부에 없을 때만 컨트롤 숨김
-    if (!containerRef.current?.contains(document.activeElement)) {
-      setControlsVisible(false);
-    }
-  };
 
   // 전체화면 토글 함수
   const toggleFullscreen = useCallback(() => {
@@ -149,18 +136,12 @@ export default function ImageViewer({
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         handlePrev();
-        showControls();
       } else if (e.key === "ArrowRight") {
         handleNext();
-        showControls();
       } else if (e.key === "f") {
         toggleFullscreen();
-        showControls();
       } else if (e.key === "Escape" && isExpanded) {
         setIsExpanded(false);
-      } else if (e.key === "Tab") {
-        // 탭 키 누를 때 컨트롤 표시
-        showControls();
       }
     };
 
@@ -169,26 +150,6 @@ export default function ImageViewer({
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [handlePrev, handleNext, toggleFullscreen, isExpanded]);
-
-  // 마우스 이벤트 처리
-  const handleMouseEnter = () => {
-    showControls();
-  };
-
-  const handleMouseLeave = () => {
-    hideControls();
-  };
-
-  // 포커스 이벤트 처리
-  const handleFocus = () => {
-    showControls();
-  };
-
-  const handleBlur = (e: React.FocusEvent) => {
-    if (!containerRef.current?.contains(e.relatedTarget as Node)) {
-      hideControls();
-    }
-  };
 
   // 썸네일 이미지 로드
   useEffect(() => {
@@ -283,10 +244,6 @@ export default function ImageViewer({
       role="region"
       aria-label="이미지 갤러리"
       tabIndex={0}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
     >
       {/* 이전/다음 버튼 */}
 
@@ -294,10 +251,9 @@ export default function ImageViewer({
         ref={prevButtonRef}
         onClick={handlePrev}
         aria-label="이전 이미지"
-        className={`absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer `}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
         tabIndex={0}
         type="button"
-        onFocus={showControls}
         style={{ pointerEvents: "auto" }}
       >
         <GrPrevious aria-hidden="true" />
@@ -306,39 +262,32 @@ export default function ImageViewer({
         ref={nextButtonRef}
         onClick={handleNext}
         aria-label="다음 이미지"
-        className={`absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer `}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
         tabIndex={0}
         type="button"
-        onFocus={showControls}
         style={{ pointerEvents: "auto" }}
       >
         <GrNext aria-hidden="true" />
       </button>
 
-      {/* 확장 버튼 */}
+      {/* 썸네일 버튼 */}
       <button
-        className={`absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 transition-opacity duration-150 ${
-          controlsVisible ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 control-visibility"
         onClick={() => setIsExpanded(!isExpanded)}
         aria-label="썸네일 보기"
         aria-expanded={isExpanded}
         aria-controls="thumbnails-panel"
         tabIndex={0}
-        onFocus={showControls}
       >
         <PiImages />
       </button>
 
       {/* 전체화면 버튼 */}
       <button
-        className={`absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 transition-opacity duration-150 ${
-          controlsVisible ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
         onClick={toggleFullscreen}
         aria-label={isFullscreen ? "전체화면 종료" : "전체화면으로 보기"}
         tabIndex={0}
-        onFocus={showControls}
       >
         {isFullscreen ? (
           <IoContract aria-hidden="true" />
@@ -377,6 +326,7 @@ export default function ImageViewer({
         role="dialog"
         aria-label="썸네일 갤러리"
         aria-modal={isExpanded}
+        aria-hidden={!isExpanded}
       >
         <article className="relative">
           <header className="sticky top-0 pt-4 w-full bg-black p-2">
@@ -412,9 +362,7 @@ export default function ImageViewer({
 
       {/* 현재 이미지 번호 */}
       <div
-        className={`absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default transition-opacity duration-150 ${
-          controlsVisible ? "opacity-100" : "opacity-0"
-        }`}
+        className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
         aria-live="polite"
         role="status"
       >
