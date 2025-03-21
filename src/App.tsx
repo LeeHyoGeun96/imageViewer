@@ -65,7 +65,7 @@ function App() {
             onIndexChange={handleIndexChange}
             thumbnailMetadata={thumbnailMetadata}
             totalImagesNumber={totalImagesNumber}
-            currentImageSrc={imageMetadata?.images[currentIndex].src}
+            currentImageSrcMetadata={imageMetadata?.images[currentIndex]}
             mainImageIsLoaded={loadedImages.has(currentIndex)}
             containerClass=""
           />

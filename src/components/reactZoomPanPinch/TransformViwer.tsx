@@ -1,14 +1,20 @@
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { IoReloadSharp } from "react-icons/io5";
+import { ImageData } from "../../api/imageApi";
 
 interface TransformViwerProps {
-  imageSrc: string;
-  alt?: string;
+  currentImageSrcMetadata?: ImageData;
   isLoaded: boolean;
 }
 
-const TransformViwer = ({ imageSrc, alt }: TransformViwerProps) => {
+const TransformViwer = ({
+  currentImageSrcMetadata = {
+    id: 0,
+    src: "",
+    alt: "",
+  },
+}: TransformViwerProps) => {
   return (
     <TransformWrapper
       initialScale={1}
@@ -21,24 +27,27 @@ const TransformViwer = ({ imageSrc, alt }: TransformViwerProps) => {
           <div className="flex gap-1 tools absolute bottom-4 right-4 z-10  rounded">
             <button
               aria-label="확대"
-              className="text-white bg-black/60 hover:bg-black/80 rounded cursor-pointer p-4"
+              className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => zoomIn()}
+              tabIndex={0}
             >
-              <FiPlus />
+              <FiPlus aria-hidden="true" />
             </button>
             <button
               aria-label="축소"
-              className="text-white bg-black/60 hover:bg-black/80 rounded cursor-pointer p-4"
+              className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => zoomOut()}
+              tabIndex={0}
             >
-              <FiMinus />
+              <FiMinus aria-hidden="true" />
             </button>
             <button
               aria-label="배율 초기화"
-              className="text-white bg-black/60 hover:bg-black/80 rounded cursor-pointer p-4"
+              className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => resetTransform()}
+              tabIndex={0}
             >
-              <IoReloadSharp />
+              <IoReloadSharp aria-hidden="true" />
             </button>
           </div>
           <TransformComponent
@@ -56,8 +65,8 @@ const TransformViwer = ({ imageSrc, alt }: TransformViwerProps) => {
             }}
           >
             <img
-              src={imageSrc}
-              alt={alt}
+              src={currentImageSrcMetadata.src}
+              alt={currentImageSrcMetadata.alt}
               className="w-full h-full object-cover"
             />
           </TransformComponent>

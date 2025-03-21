@@ -1,10 +1,13 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import TransformViwer from "./reactZoomPanPinch/TransformViwer";
 import { ImagesMetadataResponse, ImageData } from "../api/imageApi";
 import { Skeleton } from "./UI/Skeleton";
 import { GrPrevious, GrNext } from "react-icons/gr";
+
 import { VscChromeClose } from "react-icons/vsc";
 import { PiImages } from "react-icons/pi";
+import { IoExpand, IoContract } from "react-icons/io5";
+
 interface ImageViewerProps {
   currentIndex: number;
   onIndexChange: (index: number) => void;
@@ -12,7 +15,7 @@ interface ImageViewerProps {
   containerClass?: string;
   totalImagesNumber: number;
   mainImageIsLoaded?: boolean;
-  currentImageSrc?: string;
+  currentImageSrcMetadata?: ImageData;
 }
 
 export default function ImageViewer({
@@ -22,12 +25,117 @@ export default function ImageViewer({
   thumbnailMetadata = { images: [], totalImages: 0 },
   mainImageIsLoaded = false,
   containerClass = "h-[500px]",
-  currentImageSrc = "",
+  currentImageSrcMetadata,
 }: ImageViewerProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [loadedThumbnails, setLoadedThumbnails] = useState<
     Map<number, ImageData>
   >(new Map());
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(false);
+
+  // Refs
+  const containerRef = useRef<HTMLElement>(null);
+  const thumbnailPanelRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+  const prevButtonRef = useRef<HTMLButtonElement>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+
+  // 컨트롤 가시성 관리
+  const showControls = () => {
+    setControlsVisible(true);
+  };
+
+  const hideControls = () => {
+    // 포커스가 컨테이너 내부에 없을 때만 컨트롤 숨김
+    if (!containerRef.current?.contains(document.activeElement)) {
+      setControlsVisible(false);
+    }
+  };
+
+  // 전체화면 토글 함수
+  const toggleFullscreen = useCallback(() => {
+    if (!containerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      // 전체화면으로 전환
+      containerRef.current.requestFullscreen().catch((err) => {
+        console.log(`전체화면 전환 불가: ${err.message}`);
+      });
+    } else {
+      // 전체화면 종료
+      document.exitFullscreen().catch((err) => {
+        console.log(`전체화면 종료 불가: ${err.message}`);
+      });
+    }
+  }, []);
+
+  // 전체화면 변경 감지
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
+  // 포커스 관리
+  useEffect(() => {
+    if (isExpanded) {
+      lastFocusedElementRef.current = document.activeElement as HTMLElement;
+
+      setTimeout(() => {
+        if (closeButtonRef.current) {
+          closeButtonRef.current.focus();
+        }
+      }, 100);
+    } else {
+      setTimeout(() => {
+        if (lastFocusedElementRef.current) {
+          lastFocusedElementRef.current.focus();
+        }
+      }, 100);
+    }
+  }, [isExpanded]);
+
+  // 포커스 트래핑
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !thumbnailPanelRef.current) return;
+
+      const focusableElements = thumbnailPanelRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+
+      const firstElement = focusableElements[0] as HTMLElement;
+      const lastElement = focusableElements[
+        focusableElements.length - 1
+      ] as HTMLElement;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleTabKey);
+    return () => {
+      document.removeEventListener("keydown", handleTabKey);
+    };
+  }, [isExpanded]);
 
   const handlePrev = useCallback(() => {
     onIndexChange((currentIndex - 1 + totalImagesNumber) % totalImagesNumber);
@@ -37,13 +145,22 @@ export default function ImageViewer({
     onIndexChange((currentIndex + 1) % totalImagesNumber);
   }, [onIndexChange, totalImagesNumber, currentIndex]);
 
-  // 키보드 이벤트 처리 추가
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         handlePrev();
+        showControls();
       } else if (e.key === "ArrowRight") {
         handleNext();
+        showControls();
+      } else if (e.key === "f") {
+        toggleFullscreen();
+        showControls();
+      } else if (e.key === "Escape" && isExpanded) {
+        setIsExpanded(false);
+      } else if (e.key === "Tab") {
+        // 탭 키 누를 때 컨트롤 표시
+        showControls();
       }
     };
 
@@ -51,7 +168,27 @@ export default function ImageViewer({
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [handlePrev, handleNext]);
+  }, [handlePrev, handleNext, toggleFullscreen, isExpanded]);
+
+  // 마우스 이벤트 처리
+  const handleMouseEnter = () => {
+    showControls();
+  };
+
+  const handleMouseLeave = () => {
+    hideControls();
+  };
+
+  // 포커스 이벤트 처리
+  const handleFocus = () => {
+    showControls();
+  };
+
+  const handleBlur = (e: React.FocusEvent) => {
+    if (!containerRef.current?.contains(e.relatedTarget as Node)) {
+      hideControls();
+    }
+  };
 
   // 썸네일 이미지 로드
   useEffect(() => {
@@ -107,17 +244,30 @@ export default function ImageViewer({
             currentIndex === index ? "border-2 border-blue-500" : ""
           }`}
           onClick={() => handleThumbnailClick(index)}
+          role="button"
+          tabIndex={0}
+          aria-label={`이미지 ${index + 1}${
+            currentIndex === index ? " (현재 선택됨)" : ""
+          }`}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleThumbnailClick(index);
+            }
+          }}
         >
           {isLoaded && thumbnailData ? (
             // 썸네일이 로드된 경우
             <img
               src={thumbnailData.src}
-              alt={thumbnailData.alt}
+              alt={thumbnailData.alt || `이미지 ${index + 1}`}
               className="w-full h-auto"
             />
           ) : (
             // 썸네일이 아직 로드되지 않은 경우
-            <Skeleton spinnerSize={10} />
+            <Skeleton
+              spinnerSize={10}
+              aria-label={`이미지 ${index + 1} 로딩 중`}
+            />
           )}
         </div>
       );
@@ -125,91 +275,158 @@ export default function ImageViewer({
   };
 
   return (
-    <section className="relative rounded-lg overflow-hidden group">
-      {/* 이미지 크기 유지를 위한 컨테이너 */}
-      <div
-        className={`
-          aspect-[4/3]
-          max-h-[80vh]
-          ${containerClass}
-        `}
+    <section
+      className={`relative rounded-lg overflow-hidden group ${
+        isFullscreen ? "h-screen bg-black" : ""
+      }`}
+      ref={containerRef}
+      role="region"
+      aria-label="이미지 갤러리"
+      tabIndex={0}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+    >
+      {/* 이전/다음 버튼 */}
+
+      <button
+        ref={prevButtonRef}
+        onClick={handlePrev}
+        aria-label="이전 이미지"
+        className={`absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer `}
+        tabIndex={0}
+        type="button"
+        onFocus={showControls}
+        style={{ pointerEvents: "auto" }}
       >
-        {mainImageIsLoaded ? (
-          <TransformViwer
-            imageSrc={currentImageSrc}
-            isLoaded={mainImageIsLoaded}
-          />
-        ) : (
-          <Skeleton />
-        )}
-      </div>
+        <GrPrevious aria-hidden="true" />
+      </button>
+      <button
+        ref={nextButtonRef}
+        onClick={handleNext}
+        aria-label="다음 이미지"
+        className={`absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer `}
+        tabIndex={0}
+        type="button"
+        onFocus={showControls}
+        style={{ pointerEvents: "auto" }}
+      >
+        <GrNext aria-hidden="true" />
+      </button>
+
       {/* 확장 버튼 */}
       <button
-        className="absolute top-4 py-2  pl-6 z-10 bg-black/60  bg-opacity-50 cursor-pointer hover:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70"
+        className={`absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 transition-opacity duration-150 ${
+          controlsVisible ? "opacity-100" : "opacity-0"
+        }`}
         onClick={() => setIsExpanded(!isExpanded)}
         aria-label="썸네일 보기"
+        aria-expanded={isExpanded}
+        aria-controls="thumbnails-panel"
+        tabIndex={0}
+        onFocus={showControls}
       >
         <PiImages />
       </button>
 
+      {/* 전체화면 버튼 */}
+      <button
+        className={`absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 transition-opacity duration-150 ${
+          controlsVisible ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? "전체화면 종료" : "전체화면으로 보기"}
+        tabIndex={0}
+        onFocus={showControls}
+      >
+        {isFullscreen ? (
+          <IoContract aria-hidden="true" />
+        ) : (
+          <IoExpand aria-hidden="true" />
+        )}
+      </button>
+
+      {/* 이미지 크기 유지를 위한 컨테이너 */}
+      <div
+        className={`
+          ${
+            isFullscreen
+              ? "h-full max-h-screen"
+              : `aspect-[4/3] max-h-[80vh] ${containerClass}`
+          }
+        `}
+      >
+        {mainImageIsLoaded ? (
+          <TransformViwer
+            currentImageSrcMetadata={currentImageSrcMetadata}
+            isLoaded={mainImageIsLoaded}
+          />
+        ) : (
+          <Skeleton aria-label="이미지 로딩 중" />
+        )}
+      </div>
+
       {/* 썸네일 패널 */}
       <aside
+        id="thumbnails-panel"
+        ref={thumbnailPanelRef}
         className={`absolute left-0 top-0 bg-black bg-opacity-80 w-full md:w-1/2 h-full overflow-y-auto z-30 ${
-          isExpanded ? "opacity-100" : "opacity-0 pointer-events-none"
+          isExpanded ? "block" : "hidden"
         }`}
+        role="dialog"
+        aria-label="썸네일 갤러리"
+        aria-modal={isExpanded}
       >
         <article className="relative">
           <header className="sticky top-0 pt-4 w-full bg-black p-2">
             <div className="flex w-full justify-between items-center px-3">
               <button
+                ref={closeButtonRef}
                 onClick={() => setIsExpanded(false)}
-                className="bg-gray-800 text-white p-2 rounded hover:bg-gray-700 cursor-pointer"
+                className="bg-gray-800 text-white p-2 rounded hover:bg-gray-700 focus:bg-gray-700 cursor-pointer"
                 aria-label="썸네일 보기 닫기"
+                tabIndex={0}
               >
-                <VscChromeClose />
+                <VscChromeClose aria-hidden="true" />
               </button>
-              <div className=" bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default">
+              <div
+                className="bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default"
+                aria-live="polite"
+              >
                 {currentIndex + 1} / {totalImagesNumber}
               </div>
             </div>
           </header>
 
-          <main className="grid grid-cols-3 gap-2 p-2">
+          <main
+            className="grid grid-cols-3 gap-2 p-2"
+            role="listbox"
+            aria-label="이미지 썸네일 목록"
+            tabIndex={0}
+          >
             {renderThumbnails()}
           </main>
         </article>
       </aside>
 
       {/* 현재 이미지 번호 */}
-      <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default ">
+      <div
+        className={`absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default transition-opacity duration-150 ${
+          controlsVisible ? "opacity-100" : "opacity-0"
+        }`}
+        aria-live="polite"
+        role="status"
+      >
         {currentIndex + 1} / {totalImagesNumber}
       </div>
-
-      {/* 이전/다음 버튼 */}
-      {!isExpanded && (
-        <>
-          <button
-            onClick={handlePrev}
-            aria-label="이전 이미지"
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 z-10 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-          >
-            <GrPrevious />
-          </button>
-          <button
-            onClick={handleNext}
-            aria-label="다음 이미지"
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 z-10 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-          >
-            <GrNext />
-          </button>
-        </>
-      )}
 
       {/* 반투명 오버레이 */}
       {isExpanded && (
         <div
           className="absolute inset-0 bg-black/50 z-20"
           onClick={() => setIsExpanded(false)}
+          role="presentation"
         />
       )}
     </section>
