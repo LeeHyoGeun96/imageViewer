@@ -18,24 +18,24 @@ const TransformViwer = ({ imageSrc, alt }: TransformViwerProps) => {
     >
       {({ zoomIn, zoomOut, resetTransform }) => (
         <div className="absolute inset-0 w-full h-full ">
-          <div className="flex gap-1 tools absolute bottom-4 right-4 z-10 bg-black/50 rounded">
+          <div className="flex gap-1 tools absolute bottom-4 right-4 z-10  rounded">
             <button
               aria-label="확대"
-              className="text-white bg-black/70 hover:bg-black/50 rounded  p-2"
+              className="text-white bg-black/60 hover:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => zoomIn()}
             >
               <FiPlus />
             </button>
             <button
               aria-label="축소"
-              className="text-white bg-black/70 hover:bg-black/50 rounded  p-2"
+              className="text-white bg-black/60 hover:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => zoomOut()}
             >
               <FiMinus />
             </button>
             <button
               aria-label="배율 초기화"
-              className="text-white bg-black/70 hover:bg-black/50 rounded  p-2"
+              className="text-white bg-black/60 hover:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => resetTransform()}
             >
               <IoReloadSharp />
