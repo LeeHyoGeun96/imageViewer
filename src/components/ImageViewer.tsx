@@ -156,31 +156,43 @@ export default function ImageViewer({
     if (!thumbnailMetadata || thumbnailMetadata.images.length === 0) return;
     const totalImages = thumbnailMetadata.images.length;
 
+    // 배치 크기 설정 - 5개씩 로드
+    const BATCH_SIZE = 5;
+
     const loadThumbnails = async () => {
-      // 모든 썸네일 이미지 순차적으로 로드
-      for (let i = 0; i < totalImages; i++) {
-        const thumbData = thumbnailMetadata.images[i];
-        if (!thumbData) continue;
+      for (
+        let batchStart = 0;
+        batchStart < totalImages;
+        batchStart += BATCH_SIZE
+      ) {
+        // 현재 배치의 끝 인덱스 계산 (totalImages를 초과하지 않도록)
+        const batchEnd = Math.min(batchStart + BATCH_SIZE, totalImages);
 
-        // 이미 로드되었으면 스킵
-        if (loadedThumbnails.has(thumbData.id)) continue;
+        // 현재 배치의 이미지들을 로드
+        for (let i = batchStart; i < batchEnd; i++) {
+          const thumbData = thumbnailMetadata.images[i];
+          if (!thumbData) continue;
 
-        const img = new Image();
+          // 이미 로드되었으면 스킵
+          if (loadedThumbnails.has(thumbData.id)) continue;
 
-        img.onload = () => {
-          setLoadedThumbnails((prev) => {
-            const newMap = new Map(prev);
-            newMap.set(thumbData.id, thumbData);
-            return newMap;
-          });
-        };
+          const img = new Image();
 
-        // 로드 시작
-        img.src = thumbData.src;
+          img.onload = () => {
+            setLoadedThumbnails((prev) => {
+              const newMap = new Map(prev);
+              newMap.set(thumbData.id, thumbData);
+              return newMap;
+            });
+          };
 
-        // 더 긴 지연으로 확인 가능하게
-        if (i % 5 === 4) {
-          await new Promise((r) => setTimeout(r, 50));
+          // 로드 시작
+          img.src = thumbData.src;
+        }
+
+        // 한 배치 로드 후 지연 - 다음 배치 로드 전에 약간의 지연을 줌
+        if (batchEnd < totalImages) {
+          await new Promise((resolve) => setTimeout(resolve, 300));
         }
       }
     };
@@ -226,7 +238,7 @@ export default function ImageViewer({
           ) : (
             // 썸네일이 아직 로드되지 않은 경우
             <Skeleton
-              spinnerSize={10}
+              spinnerSize={5}
               aria-label={`이미지 ${index + 1} 로딩 중`}
             />
           )}
@@ -241,7 +253,6 @@ export default function ImageViewer({
         isFullscreen ? "h-screen bg-black" : ""
       }`}
       ref={containerRef}
-      role="region"
       aria-label="이미지 갤러리"
       tabIndex={0}
     >
@@ -279,7 +290,7 @@ export default function ImageViewer({
         aria-controls="thumbnails-panel"
         tabIndex={0}
       >
-        <PiImages />
+        <PiImages aria-hidden="true" />
       </button>
 
       {/* 전체화면 버튼 */}
@@ -317,7 +328,7 @@ export default function ImageViewer({
       </div>
 
       {/* 썸네일 패널 */}
-      <aside
+      <section
         id="thumbnails-panel"
         ref={thumbnailPanelRef}
         className={`absolute left-0 top-0 bg-black bg-opacity-80 w-full md:w-1/2 h-full overflow-y-auto z-30 ${
@@ -328,7 +339,7 @@ export default function ImageViewer({
         aria-modal={isExpanded}
         aria-hidden={!isExpanded}
       >
-        <article className="relative">
+        <div className="relative">
           <header className="sticky top-0 pt-4 w-full bg-black p-2">
             <div className="flex w-full justify-between items-center px-3">
               <button
@@ -349,16 +360,16 @@ export default function ImageViewer({
             </div>
           </header>
 
-          <main
+          <ul
             className="grid grid-cols-3 gap-2 p-2"
             role="listbox"
             aria-label="이미지 썸네일 목록"
             tabIndex={0}
           >
             {renderThumbnails()}
-          </main>
-        </article>
-      </aside>
+          </ul>
+        </div>
+      </section>
 
       {/* 현재 이미지 번호 */}
       <div
