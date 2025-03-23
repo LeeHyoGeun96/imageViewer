@@ -36,7 +36,7 @@ const TransformViwer = ({
       }}
     >
       {({ zoomIn, zoomOut, resetTransform }) => (
-        <div className="absolute inset-0 w-full h-full">
+        <div className="absolute inset-0 w-full h-full ">
           <ZoomControls
             zoomIn={zoomIn}
             zoomOut={zoomOut}

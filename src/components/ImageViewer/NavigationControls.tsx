@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { PiImages } from "react-icons/pi";
 import { IoExpand, IoContract } from "react-icons/io5";
@@ -12,8 +12,6 @@ interface NavigationControlsProps {
   isExpanded: boolean;
   currentIndex: number;
   totalImagesNumber: number;
-  prevButtonRef: React.RefObject<HTMLButtonElement | null>;
-  nextButtonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
 const NavigationControls = ({
@@ -25,13 +23,10 @@ const NavigationControls = ({
   isExpanded,
   currentIndex,
   totalImagesNumber,
-  prevButtonRef,
-  nextButtonRef,
 }: NavigationControlsProps) => {
   return (
     <>
       <button
-        ref={prevButtonRef}
         onClick={handlePrev}
         aria-label="이전 이미지"
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
@@ -42,7 +37,6 @@ const NavigationControls = ({
         <GrPrevious aria-hidden="true" />
       </button>
       <button
-        ref={nextButtonRef}
         onClick={handleNext}
         aria-label="다음 이미지"
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"

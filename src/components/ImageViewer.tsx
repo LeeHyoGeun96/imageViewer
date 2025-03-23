@@ -34,8 +34,6 @@ export default function ImageViewer({
   const containerRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedElementRef = useRef<HTMLElement | null>(null);
-  const prevButtonRef = useRef<HTMLButtonElement | null>(null);
-  const nextButtonRef = useRef<HTMLButtonElement | null>(null);
 
   // 전체화면 토글 함수
   const toggleFullscreen = useCallback(() => {
@@ -182,8 +180,6 @@ export default function ImageViewer({
         isExpanded={isExpanded}
         currentIndex={currentIndex}
         totalImagesNumber={totalImagesNumber}
-        prevButtonRef={prevButtonRef}
-        nextButtonRef={nextButtonRef}
       />
 
       {/* 이미지 크기 유지를 위한 컨테이너 */}
