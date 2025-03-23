@@ -212,6 +212,13 @@ export default function ImageViewer({
         onThumbnailClick={handleThumbnailClick}
         closeButtonRef={closeButtonRef}
       />
+
+      <div
+        className="absolute bottom-4 left-4 bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
+        aria-live="polite"
+      >
+        {currentIndex + 1} / {totalImagesNumber}
+      </div>
     </section>
   );
 }

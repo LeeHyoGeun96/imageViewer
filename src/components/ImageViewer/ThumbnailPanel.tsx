@@ -73,7 +73,6 @@ const ThumbnailPanel = ({
         aria-modal={isExpanded}
         aria-hidden={!isExpanded}
       >
-        {/* 기존 코드는 그대로 유지 */}
         <div className="relative">
           <header className="sticky top-0 pt-4 w-full bg-black p-2">
             <div className="flex w-full justify-between items-center px-3">
