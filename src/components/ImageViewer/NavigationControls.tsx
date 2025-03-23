@@ -4,8 +4,8 @@ import { PiImages } from "react-icons/pi";
 import { IoExpand, IoContract } from "react-icons/io5";
 
 interface NavigationControlsProps {
-  handlePrev: () => void;
-  handleNext: () => void;
+  onNext: () => void;
+  onPrev: () => void;
   toggleFullscreen: () => void;
   isFullscreen: boolean;
   setIsExpanded: (expanded: boolean) => void;
@@ -15,15 +15,23 @@ interface NavigationControlsProps {
 }
 
 const NavigationControls = ({
-  handlePrev,
-  handleNext,
   toggleFullscreen,
   isFullscreen,
   setIsExpanded,
   isExpanded,
   currentIndex,
   totalImagesNumber,
+  onNext,
+  onPrev,
 }: NavigationControlsProps) => {
+  const handlePrev = () => {
+    onPrev();
+  };
+
+  const handleNext = () => {
+    onNext();
+  };
+
   return (
     <>
       <button

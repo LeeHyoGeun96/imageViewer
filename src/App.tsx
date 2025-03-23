@@ -1,73 +1,37 @@
-import { useEffect, useState } from "react";
 import "./index.css";
 import ImageViewer from "./components/ImageViewer";
-import {
-  fetchAllThumbnailMetadata,
-  ImagesMetadataResponse,
-  fetchAllImagesMetadata,
-} from "./api/imageApi";
+import { useGalleryData } from "./hooks/useGalleryData";
+import { useImagePreloader } from "./hooks/useImagePreloader";
 
 function App() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [thumbnailMetadata, setThumbnailMetadata] =
-    useState<ImagesMetadataResponse>();
-  const [imageMetadata, setImageMetadata] = useState<ImagesMetadataResponse>();
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
-  // 메인 이미지 프리로딩 추가
-  useEffect(() => {
-    // 현재 이미지 및 앞뒤 이미지 프리로딩
-    if (!imageMetadata) return;
-    const indicesToPreload = [
-      (currentIndex - 1 + imageMetadata.totalImages) %
-        imageMetadata.totalImages,
-      currentIndex,
-      (currentIndex + 1) % imageMetadata.totalImages,
-    ];
+  // 갤러리 데이터 관리
+  const {
+    currentIndex,
+    thumbnailMetadata,
+    imageMetadata,
+    totalImagesNumber,
+    handleIndexChange,
+    currentImageMetadata,
+  } = useGalleryData();
 
-    indicesToPreload.forEach((index) => {
-      // 이미 로드된 이미지는 스킵
-      if (loadedImages.has(index)) return;
-
-      const img = new Image();
-      img.onload = () => {
-        setLoadedImages((prev) => new Set([...prev, index]));
-      };
-
-      // 프리로딩 시작
-      img.src = imageMetadata?.images[index].src;
-    });
-  }, [currentIndex, loadedImages, imageMetadata]);
-
-  const totalImagesNumber = imageMetadata?.totalImages || 0;
-
-  useEffect(() => {
-    const getMetaData = async () => {
-      const [thumbnailMetadata, imageMetadata] = await Promise.all([
-        fetchAllThumbnailMetadata(),
-        fetchAllImagesMetadata(),
-      ]);
-      setThumbnailMetadata(thumbnailMetadata);
-      setImageMetadata(imageMetadata);
-    };
-    getMetaData();
-  }, []);
-
-  const handleIndexChange = (newIndex: number) => {
-    setCurrentIndex(newIndex);
-  };
+  // 이미지 프리로딩
+  const { isCurrentImageLoaded } = useImagePreloader(
+    currentIndex,
+    imageMetadata
+  );
 
   return (
     <>
-      <main className="my-container  flex flex-col  md:flex-row gap-4">
+      <main className="my-container flex flex-col md:flex-row gap-4">
         <section className="flex-3 overflow-hidden">
           <ImageViewer
             currentIndex={currentIndex}
             onIndexChange={handleIndexChange}
             thumbnailMetadata={thumbnailMetadata}
             totalImagesNumber={totalImagesNumber}
-            currentImageSrcMetadata={imageMetadata?.images[currentIndex]}
+            currentImageSrcMetadata={currentImageMetadata}
             imageMetadatas={imageMetadata?.images}
-            mainImageIsLoaded={loadedImages.has(currentIndex)}
+            mainImageIsLoaded={isCurrentImageLoaded}
             containerClass=""
           />
         </section>
