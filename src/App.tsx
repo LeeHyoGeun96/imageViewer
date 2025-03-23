@@ -58,14 +58,15 @@ function App() {
 
   return (
     <>
-      <main className="container  flex-col  md:flex-row">
-        <section className="md:flex-3">
+      <main className="my-container  flex flex-col  md:flex-row gap-4">
+        <section className="flex-3 overflow-hidden">
           <ImageViewer
             currentIndex={currentIndex}
             onIndexChange={handleIndexChange}
             thumbnailMetadata={thumbnailMetadata}
             totalImagesNumber={totalImagesNumber}
             currentImageSrcMetadata={imageMetadata?.images[currentIndex]}
+            imageMetadatas={imageMetadata?.images}
             mainImageIsLoaded={loadedImages.has(currentIndex)}
             containerClass=""
           />

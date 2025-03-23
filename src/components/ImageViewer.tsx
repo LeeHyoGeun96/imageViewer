@@ -4,6 +4,8 @@ import { ImagesMetadataResponse, ImageData } from "../api/imageApi";
 import { Skeleton } from "./UI/Skeleton";
 import ThumbnailPanel from "./ImageViewer/ThumbnailPanel";
 import NavigationControls from "./ImageViewer/NavigationControls";
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 
 interface ImageViewerProps {
   currentIndex: number;
@@ -13,6 +15,7 @@ interface ImageViewerProps {
   totalImagesNumber: number;
   mainImageIsLoaded?: boolean;
   currentImageSrcMetadata?: ImageData;
+  imageMetadatas?: ImageData[];
 }
 
 export default function ImageViewer({
@@ -21,14 +24,15 @@ export default function ImageViewer({
   onIndexChange,
   thumbnailMetadata = { images: [], totalImages: 0 },
   mainImageIsLoaded = false,
-  containerClass = "h-[500px]",
-  currentImageSrcMetadata,
+  containerClass = "",
+  imageMetadatas,
 }: ImageViewerProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [loadedThumbnails, setLoadedThumbnails] = useState<
     Map<number, ImageData>
   >(new Map());
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
 
   // Refs
   const containerRef = useRef<HTMLElement | null>(null);
@@ -84,12 +88,20 @@ export default function ImageViewer({
   }, [isExpanded]);
 
   const handlePrev = useCallback(() => {
-    onIndexChange((currentIndex - 1 + totalImagesNumber) % totalImagesNumber);
-  }, [onIndexChange, totalImagesNumber, currentIndex]);
+    if (swiperInstance) {
+      swiperInstance.slidePrev();
+    } else {
+      onIndexChange((currentIndex - 1 + totalImagesNumber) % totalImagesNumber);
+    }
+  }, [onIndexChange, totalImagesNumber, currentIndex, swiperInstance]);
 
   const handleNext = useCallback(() => {
-    onIndexChange((currentIndex + 1) % totalImagesNumber);
-  }, [onIndexChange, totalImagesNumber, currentIndex]);
+    if (swiperInstance) {
+      swiperInstance.slideNext();
+    } else {
+      onIndexChange((currentIndex + 1) % totalImagesNumber);
+    }
+  }, [onIndexChange, totalImagesNumber, currentIndex, swiperInstance]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -157,15 +169,24 @@ export default function ImageViewer({
   }, [thumbnailMetadata]);
 
   const handleThumbnailClick = (index: number) => {
-    onIndexChange(index);
+    if (swiperInstance) {
+      swiperInstance.slideTo(index, 0);
+    } else {
+      onIndexChange(index);
+    }
     setIsExpanded(false);
+  };
+
+  // Swiper 슬라이드 변경 시 인덱스 업데이트
+  const handleSlideChange = (swiper: SwiperType) => {
+    onIndexChange(swiper.activeIndex);
   };
 
   return (
     <section
-      className={`relative rounded-lg overflow-hidden group ${
+      className={`relative rounded-lg overflow-hidden group aspect-[4/3] max-h-[80vh]   ${
         isFullscreen ? "h-screen bg-black" : ""
-      }`}
+      } ${containerClass}`}
       ref={containerRef}
       aria-label="이미지 갤러리"
       tabIndex={0}
@@ -182,25 +203,32 @@ export default function ImageViewer({
         totalImagesNumber={totalImagesNumber}
       />
 
-      {/* 이미지 크기 유지를 위한 컨테이너 */}
-      <div
-        className={`
-          ${
-            isFullscreen
-              ? "h-full max-h-screen"
-              : `aspect-[4/3] max-h-[80vh] ${containerClass}`
-          }
-        `}
-      >
-        {mainImageIsLoaded ? (
-          <TransformViwer
-            currentImageSrcMetadata={currentImageSrcMetadata}
-            isLoaded={mainImageIsLoaded}
-          />
-        ) : (
-          <Skeleton aria-label="이미지 로딩 중" />
-        )}
-      </div>
+      {/* 이미지 슬라이더 컨테이너 */}
+
+      {imageMetadatas && imageMetadatas.length > 0 ? (
+        <Swiper
+          spaceBetween={10}
+          slidesPerView={1}
+          onSlideChange={handleSlideChange}
+          onSwiper={(swiper) => setSwiperInstance(swiper)}
+          initialSlide={currentIndex}
+          mousewheel={false}
+          className="h-full w-full"
+        >
+          {imageMetadatas.map((image) => (
+            <SwiperSlide key={image.id}>
+              <div className="w-full h-full flex items-center justify-center">
+                <TransformViwer
+                  currentImageSrcMetadata={image}
+                  isLoaded={mainImageIsLoaded}
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <Skeleton aria-label="이미지 로딩 중" />
+      )}
 
       {/* 썸네일 패널 */}
       <ThumbnailPanel
@@ -214,7 +242,7 @@ export default function ImageViewer({
       />
 
       <div
-        className="absolute bottom-4 left-4 bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
+        className="absolute z-10  bottom-4 left-4 bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
         aria-live="polite"
       >
         {currentIndex + 1} / {totalImagesNumber}
