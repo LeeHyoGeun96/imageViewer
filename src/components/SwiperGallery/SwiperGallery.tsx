@@ -31,8 +31,6 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
       slideTo: (index: number) => swiperInstance?.slideTo(index, 0),
     }));
 
-    console.log("swiperInstance", swiperInstance);
-
     const handleSlideChange = (swiper: SwiperType) => {
       onSlideChange(swiper.activeIndex);
     };
