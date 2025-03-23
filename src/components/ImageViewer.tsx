@@ -134,9 +134,6 @@ export default function ImageViewer({
           const thumbData = thumbnailMetadata.images[i];
           if (!thumbData) continue;
 
-          // 이미 로드되었으면 스킵
-          if (loadedThumbnails.has(thumbData.id)) continue;
-
           const img = new Image();
 
           img.onload = () => {
@@ -159,7 +156,7 @@ export default function ImageViewer({
     };
 
     loadThumbnails();
-  }, [thumbnailMetadata, loadedThumbnails]);
+  }, [thumbnailMetadata]);
 
   const handleThumbnailClick = (index: number) => {
     onIndexChange(index);

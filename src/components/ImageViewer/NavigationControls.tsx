@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { PiImages } from "react-icons/pi";
 import { IoExpand, IoContract } from "react-icons/io5";
@@ -88,4 +88,5 @@ const NavigationControls = ({
   );
 };
 
-export default NavigationControls;
+// memo로 감싸서 내보내기
+export default memo(NavigationControls);
