@@ -180,7 +180,7 @@ const TransformViwer = ({
 
           {/* 안내 메시지 */}
           {showMessage && (
-            <div className="absolute bottom-8 md:bottom-4 text-xs left-1/2 -translate-x-1/2 text-white bg-black/60 rounded-2xl px-3 py-1">
+            <div className="absolute bottom-20 md:bottom-4 text-xs left-1/2 -translate-x-1/2 text-white bg-black/60 rounded-2xl px-3 py-1">
               <div className="flex items-center gap-1">
                 <DoubleClickIconSVG className="size-20 fill-white " />
                 <span className="mx-1">또는</span>
