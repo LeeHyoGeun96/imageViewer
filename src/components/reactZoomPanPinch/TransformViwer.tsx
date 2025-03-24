@@ -59,7 +59,7 @@ const TransformViwer = ({
       }}
       onTransformed={handleTransformed}
       doubleClick={{
-        mode: "reset", // 더블 클릭 시 원래 크기로 초기화
+        mode: "toggle", // 더블 클릭 시 원래 크기로 초기화
       }}
     >
       {({ zoomIn, zoomOut, resetTransform }) => (
