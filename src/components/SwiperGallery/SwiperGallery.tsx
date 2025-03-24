@@ -43,6 +43,7 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
         onSwiper={setSwiperInstance}
         initialSlide={initialIndex}
         mousewheel={false}
+        nested={true}
         className="h-full w-full"
       >
         {images.map((image) => (
