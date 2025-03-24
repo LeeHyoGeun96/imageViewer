@@ -121,6 +121,10 @@ const TransformViwer = ({
     setIsZoomed(ref.state.scale > 1);
   }, []);
 
+  const handleZoomStop = useCallback((ref: ReactZoomPanPinchRef) => {
+    setIsZoomed(ref.state.scale > 1.05);
+  }, []);
+
   // 디바운스된 패닝 핸들러
   const debouncedHandlePanning = useMemo(
     () => debounce((ref: ReactZoomPanPinchRef) => handlePanning(ref), 16),
@@ -157,9 +161,10 @@ const TransformViwer = ({
       }}
       limitToBounds={true}
       doubleClick={{
-        mode: "toggle",
+        mode: isZoomed ? "reset" : "zoomIn",
       }}
       onZoom={handleZoomChange}
+      onZoomStop={handleZoomStop}
       onPanning={debouncedHandlePanning}
       onPanningStop={handlePanningStop}
       onTransformed={handleTransformed}
