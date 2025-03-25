@@ -15,10 +15,7 @@ function App() {
   } = useGalleryData();
 
   // 이미지 프리로딩
-  const { isCurrentImageLoaded } = useImagePreloader(
-    currentIndex,
-    imageMetadata
-  );
+  useImagePreloader(currentIndex, imageMetadata);
 
   return (
     <>
@@ -31,7 +28,6 @@ function App() {
             totalImagesNumber={totalImagesNumber}
             currentImageSrcMetadata={currentImageMetadata}
             imageMetadatas={imageMetadata?.images}
-            mainImageIsLoaded={isCurrentImageLoaded}
             containerClass=""
           />
         </section>

@@ -15,7 +15,6 @@ interface ImageViewerProps {
   thumbnailMetadata?: ImagesMetadataResponse;
   containerClass?: string;
   totalImagesNumber: number;
-  mainImageIsLoaded?: boolean;
   currentImageSrcMetadata?: ImageData;
   imageMetadatas?: ImageData[];
   onIndexChange: (index: number) => void;
@@ -25,7 +24,6 @@ export default function ImageViewer({
   currentIndex,
   totalImagesNumber,
   thumbnailMetadata = { images: [], totalImages: 0 },
-  mainImageIsLoaded = false,
   containerClass = "",
   imageMetadatas,
   onIndexChange,
@@ -88,7 +86,6 @@ export default function ImageViewer({
           images={imageMetadatas}
           initialIndex={currentIndex}
           onSlideChange={handleSlideChange}
-          imagesLoaded={mainImageIsLoaded}
         />
       ) : (
         <Skeleton aria-label="이미지 로딩 중" />

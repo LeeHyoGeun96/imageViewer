@@ -16,7 +16,6 @@ type onTransformedProps = {
 
 interface TransformViwerProps {
   currentImageSrcMetadata?: ImageData;
-  isLoaded: boolean;
 }
 
 const TransformViwer = ({

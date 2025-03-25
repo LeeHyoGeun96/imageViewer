@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef } from "react";
+import { useImperativeHandle, forwardRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import { ImageData } from "../../api/imageApi";
@@ -15,14 +15,14 @@ interface SwiperGalleryProps {
   images: ImageData[];
   initialIndex: number;
   onSlideChange: (index: number) => void;
-  imagesLoaded?: boolean;
 }
 
 // forwardRef를 사용하여 ref 노출
 const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
-  ({ images, initialIndex, onSlideChange, imagesLoaded = true }, ref) => {
-    const [swiperInstance, setSwiperInstance] =
-      React.useState<SwiperType | null>(null);
+  ({ images, initialIndex, onSlideChange }, ref) => {
+    const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(
+      null
+    );
 
     // 외부에서 사용할 메서드 노출
     useImperativeHandle(ref, () => ({
@@ -49,10 +49,7 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
         {images.map((image) => (
           <SwiperSlide key={image.id}>
             <div className="w-full h-full flex items-center justify-center">
-              <TransformViwer
-                currentImageSrcMetadata={image}
-                isLoaded={imagesLoaded}
-              />
+              <TransformViwer currentImageSrcMetadata={image} />
             </div>
           </SwiperSlide>
         ))}
