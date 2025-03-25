@@ -2,6 +2,7 @@ import { memo } from "react";
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { PiImages } from "react-icons/pi";
 import { IoExpand, IoContract } from "react-icons/io5";
+import RotateIconSVG from "../../assets/rotatePhone.svg?react";
 
 interface NavigationControlsProps {
   onNext: () => void;
@@ -12,7 +13,12 @@ interface NavigationControlsProps {
   isExpanded: boolean;
   currentIndex: number;
   totalImagesNumber: number;
+  toggleOrientation?: () => void; // 선택적 - API가 지원되지 않을 경우 undefined
+  orientation: OrientationType;
+  isOrientationSupported: boolean;
 }
+
+type OrientationType = "portrait" | "landscape";
 
 const NavigationControls = ({
   toggleFullscreen,
@@ -23,6 +29,9 @@ const NavigationControls = ({
   totalImagesNumber,
   onNext,
   onPrev,
+  toggleOrientation,
+  orientation,
+  isOrientationSupported,
 }: NavigationControlsProps) => {
   const handlePrev = () => {
     onPrev();
@@ -65,6 +74,19 @@ const NavigationControls = ({
       >
         <PiImages aria-hidden="true" />
       </button>
+
+      {/* 화면 방향 전환 버튼 (전체화면 모드이고 API가 지원될 때만 표시) */}
+      {isFullscreen && isOrientationSupported && toggleOrientation && (
+        <button
+          className="absolute top-4 right-16 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
+          onClick={toggleOrientation}
+          aria-label={
+            orientation === "portrait" ? "가로 모드로 전환" : "세로 모드로 전환"
+          }
+        >
+          <RotateIconSVG className="size-7" aria-hidden="true" />
+        </button>
+      )}
 
       <button
         className="absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"

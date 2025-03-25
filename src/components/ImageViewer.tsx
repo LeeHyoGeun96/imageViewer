@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ImagesMetadataResponse, ImageData } from "../api/imageApi";
 import { Skeleton } from "./UI/Skeleton";
 import ThumbnailPanel from "./ImageViewer/ThumbnailPanel";
@@ -9,6 +9,7 @@ import { useFullscreen } from "../hooks/useFullscreen";
 import { useThumbnailLoader } from "../hooks/useThumbnailLoader";
 import { useImageSlider } from "../hooks/useImageSlider";
 import { useFocusManagement } from "../hooks/useFocusManagement";
+import { useScreenOrientation } from "../hooks/useScreenOrientation";
 
 interface ImageViewerProps {
   currentIndex: number;
@@ -36,13 +37,15 @@ export default function ImageViewer({
   // 커스텀 훅 사용
   const { galleryRef, handleSlideChange, slidePrev, slideNext, slideTo } =
     useImageSlider({ initialIndex: currentIndex, onIndexChange });
-
   const { isFullscreen, toggleFullscreen } = useFullscreen(containerRef);
-
   const { loadedThumbnails } = useThumbnailLoader(thumbnailMetadata);
-
   useFocusManagement({ isExpanded, focusElementRef: closeButtonRef });
-
+  const {
+    orientation,
+    isSupported: isOrientationSupported,
+    toggleOrientation,
+    unlockOrientation,
+  } = useScreenOrientation();
   useKeyboardNavigation({
     onPrev: slidePrev,
     onNext: slideNext,
@@ -50,6 +53,12 @@ export default function ImageViewer({
     onEscapeExpanded: () => setIsExpanded(false),
     isExpanded,
   });
+
+  useEffect(() => {
+    if (!isFullscreen && isOrientationSupported) {
+      unlockOrientation();
+    }
+  }, [isFullscreen, isOrientationSupported, unlockOrientation]);
 
   // Swiper 슬라이드 변경 시 인덱스 업데이트
   const handleThumbnailClick = (index: number) => {
@@ -76,6 +85,9 @@ export default function ImageViewer({
         totalImagesNumber={totalImagesNumber}
         onNext={slideNext}
         onPrev={slidePrev}
+        orientation={orientation}
+        isOrientationSupported={isOrientationSupported}
+        toggleOrientation={toggleOrientation}
       />
 
       {/* 이미지 슬라이더 컨테이너 */}
