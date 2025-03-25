@@ -71,7 +71,6 @@ const ThumbnailPanel = ({
         role="dialog"
         aria-label="썸네일 갤러리"
         aria-modal={isExpanded}
-        aria-hidden={!isExpanded}
       >
         <div className="relative">
           <header className="sticky top-0 pt-4 w-full bg-black p-2">
