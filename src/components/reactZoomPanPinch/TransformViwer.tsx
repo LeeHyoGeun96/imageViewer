@@ -1,18 +1,15 @@
-import { memo, useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { ReactZoomPanPinchRef, TransformWrapper } from "react-zoom-pan-pinch";
+import { memo, useEffect } from "react";
+import { TransformWrapper } from "react-zoom-pan-pinch";
 import { ImageData } from "../../api/imageApi";
 import ZoomControls from "./ZoomControls";
 import { useSwiper } from "swiper/react";
 import ImageRenderer from "./ImageRenderer ";
 import DoubleClickIconSVG from "../../assets/customIcon/doubleClickIcon.svg?react";
 import { IoReloadSharp } from "react-icons/io5";
-import { debounce } from "lodash";
 
-type onTransformedProps = {
-  scale: number;
-  positionX: number;
-  positionY: number;
-};
+import useSwipeMessage from "../../hooks/TransformViwer/useSwipeMessage";
+import useZoomControl from "../../hooks/TransformViwer/useZoomControl";
+import usePanningControl from "../../hooks/TransformViwer/usePanningControl";
 
 interface TransformViwerProps {
   currentImageSrcMetadata?: ImageData;
@@ -27,131 +24,27 @@ const TransformViwer = ({
   },
   currentIndex,
 }: TransformViwerProps) => {
-  const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
   const swiper = useSwiper();
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
-  const messageTimerRef = useRef<number | null>(null);
-  const lastPositionRef = useRef({ x: 0, y: 0 });
-  const panDirectionRef = useRef<"left" | "right" | null>(null);
-  const boundaryReachedRef = useRef<"left" | "right" | null>(null);
-  const lastMessageTimeRef = useRef<number>(0);
-
+  const {
+    isZoomed,
+    transformRef,
+    handleZoomChange,
+    handleZoomStop,
+    handleTransformed,
+  } = useZoomControl(swiper);
+  const { showMessage, showSwipeMessage } = useSwipeMessage(isZoomed);
+  const { debouncedHandlePanning, handlePanningStop } = usePanningControl(
+    isZoomed,
+    showSwipeMessage
+  );
   const isCurrentImage = currentImageSrcMetadata.id === currentIndex;
-
-  // 메시지 표시 로직
-  const showSwipeMessage = useCallback(() => {
-    if (!isZoomed) return;
-
-    const now = Date.now();
-    if (now - lastMessageTimeRef.current > 500) {
-      setShowMessage(true);
-      lastMessageTimeRef.current = now;
-
-      if (messageTimerRef.current) {
-        clearTimeout(messageTimerRef.current);
-      }
-
-      messageTimerRef.current = setTimeout(() => {
-        setShowMessage(false);
-      }, 1000);
-    }
-  }, [isZoomed]);
-
-  const handlePanning = useCallback(
-    (ref: ReactZoomPanPinchRef) => {
-      if (!isZoomed || !ref.instance.wrapperComponent) return;
-
-      const { positionX, scale } = ref.state;
-      const wrapperElement = ref.instance.wrapperComponent;
-
-      // 패닝 방향 감지
-      if (positionX < lastPositionRef.current.x) {
-        panDirectionRef.current = "left";
-      } else if (positionX > lastPositionRef.current.x) {
-        panDirectionRef.current = "right";
-      }
-
-      // 이미지 크기 및 경계 계산
-      const wrapperWidth = wrapperElement.offsetWidth;
-      const contentWidth = wrapperWidth * scale;
-      const maxPositionX = 0;
-      const minPositionX = -(contentWidth - wrapperWidth);
-
-      // 경계 도달 감지
-      const threshold = 1;
-      const isAtRightEdge = Math.abs(positionX - maxPositionX) < threshold;
-      const isAtLeftEdge = Math.abs(positionX - minPositionX) < threshold;
-
-      if (isAtRightEdge) {
-        boundaryReachedRef.current = "right";
-      } else if (isAtLeftEdge) {
-        boundaryReachedRef.current = "left";
-      } else {
-        boundaryReachedRef.current = null;
-      }
-
-      // 경계에서의 스와이프 시도 감지
-      const isSwipingBeyondBoundary =
-        (boundaryReachedRef.current === "right" &&
-          panDirectionRef.current === "right") ||
-        (boundaryReachedRef.current === "left" &&
-          panDirectionRef.current === "left");
-
-      if (isSwipingBeyondBoundary) {
-        showSwipeMessage();
-      }
-
-      lastPositionRef.current = { x: positionX, y: ref.state.positionY };
-    },
-    [isZoomed, showSwipeMessage]
-  );
-
-  const handlePanningStop = useCallback(() => {
-    panDirectionRef.current = null;
-  }, []);
-
-  const handleTransformed = useCallback(
-    (_: ReactZoomPanPinchRef, state: onTransformedProps) => {
-      if (swiper) {
-        swiper.allowTouchMove = state.scale <= 1.05;
-      }
-    },
-    [swiper]
-  );
-
-  const handleZoomChange = useCallback((ref: ReactZoomPanPinchRef) => {
-    setIsZoomed(ref.state.scale > 1);
-  }, []);
-
-  const handleZoomStop = useCallback((ref: ReactZoomPanPinchRef) => {
-    setIsZoomed(ref.state.scale > 1.05);
-  }, []);
-
-  // 디바운스된 패닝 핸들러
-  const debouncedHandlePanning = useMemo(
-    () => debounce((ref: ReactZoomPanPinchRef) => handlePanning(ref), 16),
-    [handlePanning]
-  );
 
   // 이미지가 변경될 때 transform 초기화
   useEffect(() => {
     if (transformRef.current?.resetTransform) {
       transformRef.current.resetTransform(0);
     }
-  }, [currentImageSrcMetadata.id]);
-
-  // 클린업 로직
-  useEffect(() => {
-    const currentDebouncedHandler = debouncedHandlePanning;
-
-    return () => {
-      if (messageTimerRef.current) {
-        clearTimeout(messageTimerRef.current);
-      }
-      currentDebouncedHandler.cancel();
-    };
-  }, [debouncedHandlePanning]);
+  }, [currentImageSrcMetadata.id, transformRef]);
 
   return (
     <TransformWrapper

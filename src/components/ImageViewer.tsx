@@ -4,12 +4,12 @@ import { Skeleton } from "./UI/Skeleton";
 import ThumbnailPanel from "./ImageViewer/ThumbnailPanel";
 import NavigationControls from "./ImageViewer/NavigationControls";
 import SwiperGallery from "./SwiperGallery/SwiperGallery";
-import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
-import { useFullscreen } from "../hooks/useFullscreen";
-import { useThumbnailLoader } from "../hooks/useThumbnailLoader";
-import { useImageSlider } from "../hooks/useImageSlider";
-import { useFocusManagement } from "../hooks/useFocusManagement";
-import { useScreenOrientation } from "../hooks/useScreenOrientation";
+import { useKeyboardNavigation } from "../hooks/ImageViewer/useKeyboardNavigation";
+import { useFullscreen } from "../hooks/ImageViewer/useFullscreen";
+import { useThumbnailLoader } from "../hooks/ImageViewer/useThumbnailLoader";
+import { useImageSlider } from "../hooks/ImageViewer/useImageSlider";
+import { useFocusManagement } from "../hooks/ImageViewer/useFocusManagement";
+import { useScreenOrientation } from "../hooks/ImageViewer/useScreenOrientation";
 
 interface ImageViewerProps {
   currentIndex: number;

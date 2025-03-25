@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ImagesMetadataResponse, ImageData } from "../api/imageApi";
+import { ImagesMetadataResponse, ImageData } from "../../api/imageApi";
 
 export function useThumbnailLoader(thumbnailMetadata?: ImagesMetadataResponse) {
   const [loadedThumbnails, setLoadedThumbnails] = useState<

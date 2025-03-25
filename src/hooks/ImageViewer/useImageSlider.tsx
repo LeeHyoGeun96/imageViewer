@@ -1,5 +1,5 @@
 import { useRef, useCallback, useState } from "react";
-import { SwiperGalleryRef } from "../components/SwiperGallery/SwiperGallery";
+import { SwiperGalleryRef } from "../../components/SwiperGallery/SwiperGallery";
 
 interface UseImageSliderProps {
   initialIndex: number;
