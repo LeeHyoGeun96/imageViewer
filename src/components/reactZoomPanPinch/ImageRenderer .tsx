@@ -24,7 +24,7 @@ const ImageRenderer = ({ imageMetadata }: ImageRendererProps) => {
       <img
         src={imageMetadata.src}
         alt={imageMetadata.alt}
-        className="w-full h-full object-fill"
+        className="w-full h-full object-contain"
         loading="lazy"
       />
     </TransformComponent>
