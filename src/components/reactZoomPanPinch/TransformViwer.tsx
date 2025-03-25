@@ -16,6 +16,7 @@ type onTransformedProps = {
 
 interface TransformViwerProps {
   currentImageSrcMetadata?: ImageData;
+  currentIndex: number;
 }
 
 const TransformViwer = ({
@@ -24,6 +25,7 @@ const TransformViwer = ({
     src: "",
     alt: "",
   },
+  currentIndex,
 }: TransformViwerProps) => {
   const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
   const swiper = useSwiper();
@@ -34,6 +36,8 @@ const TransformViwer = ({
   const panDirectionRef = useRef<"left" | "right" | null>(null);
   const boundaryReachedRef = useRef<"left" | "right" | null>(null);
   const lastMessageTimeRef = useRef<number>(0);
+
+  const isCurrentImage = currentImageSrcMetadata.id === currentIndex;
 
   // 메시지 표시 로직
   const showSwipeMessage = useCallback(() => {
@@ -174,6 +178,7 @@ const TransformViwer = ({
             zoomIn={zoomIn}
             zoomOut={zoomOut}
             resetTransform={resetTransform}
+            isCurrentImage={isCurrentImage}
           />
           <ImageRenderer imageMetadata={currentImageSrcMetadata} />
 

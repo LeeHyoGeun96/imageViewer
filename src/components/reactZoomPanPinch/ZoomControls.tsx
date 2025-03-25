@@ -5,12 +5,14 @@ interface ZoomControlsProps {
   zoomIn: () => void;
   zoomOut: () => void;
   resetTransform: () => void;
+  isCurrentImage: boolean;
 }
 
 const ZoomControls = ({
   zoomIn,
   zoomOut,
   resetTransform,
+  isCurrentImage,
 }: ZoomControlsProps) => {
   return (
     <div className="flex gap-1 tools absolute bottom-4 right-4 z-10 rounded">
@@ -18,7 +20,7 @@ const ZoomControls = ({
         aria-label="확대"
         className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
         onClick={() => zoomIn()}
-        tabIndex={0}
+        tabIndex={isCurrentImage ? 0 : -1}
       >
         <FiPlus aria-hidden="true" />
       </button>
@@ -26,7 +28,7 @@ const ZoomControls = ({
         aria-label="축소"
         className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
         onClick={() => zoomOut()}
-        tabIndex={0}
+        tabIndex={isCurrentImage ? 0 : -1}
       >
         <FiMinus aria-hidden="true" />
       </button>
@@ -34,7 +36,7 @@ const ZoomControls = ({
         aria-label="배율 초기화"
         className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
         onClick={() => resetTransform()}
-        tabIndex={0}
+        tabIndex={isCurrentImage ? 0 : -1}
       >
         <IoReloadSharp aria-hidden="true" />
       </button>

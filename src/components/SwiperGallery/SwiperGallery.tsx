@@ -49,7 +49,10 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
         {images.map((image) => (
           <SwiperSlide key={image.id}>
             <div className="w-full h-full flex items-center justify-center">
-              <TransformViwer currentImageSrcMetadata={image} />
+              <TransformViwer
+                currentImageSrcMetadata={image}
+                currentIndex={initialIndex}
+              />
             </div>
           </SwiperSlide>
         ))}
