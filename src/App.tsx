@@ -7,15 +7,13 @@ function App() {
   // 갤러리 데이터 관리
   const {
     currentIndex,
-    thumbnailMetadata,
-    imageMetadata,
-    totalImagesNumber,
+    thumbnailMetadatas,
+    imageMetadatas,
     handleIndexChange,
-    currentImageMetadata,
   } = useGalleryData();
 
   // 이미지 프리로딩
-  useImagePreloader(currentIndex, imageMetadata);
+  useImagePreloader(currentIndex, imageMetadatas);
 
   return (
     <>
@@ -24,10 +22,8 @@ function App() {
           <ImageViewer
             currentIndex={currentIndex}
             onIndexChange={handleIndexChange}
-            thumbnailMetadata={thumbnailMetadata}
-            totalImagesNumber={totalImagesNumber}
-            currentImageSrcMetadata={currentImageMetadata}
-            imageMetadatas={imageMetadata?.images}
+            thumbnailMetadatas={thumbnailMetadatas}
+            imageMetadatas={imageMetadatas}
             containerClass=""
           />
         </section>

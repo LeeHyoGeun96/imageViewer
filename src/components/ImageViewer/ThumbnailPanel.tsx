@@ -7,7 +7,7 @@ interface ThumbnailPanelProps {
   isExpanded: boolean;
   setIsExpanded: (expanded: boolean) => void;
   currentIndex: number;
-  totalImagesNumber: number;
+  totalImagesNumber?: number;
   loadedThumbnails: Map<number, ImageData>;
   onThumbnailClick: (index: number) => void;
   closeButtonRef: React.RefObject<HTMLButtonElement | null>;
@@ -72,50 +72,60 @@ const ThumbnailPanel = ({
         aria-label="썸네일 갤러리"
         aria-modal={isExpanded}
       >
-        <div className="relative">
-          <header className="sticky top-0 pt-4 w-full bg-black p-2">
-            <div className="flex w-full justify-between items-center px-3">
-              <button
-                ref={closeButtonRef}
-                onClick={() => setIsExpanded(false)}
-                className="bg-gray-800 text-white p-2 rounded hover:bg-gray-700 focus:bg-gray-700 cursor-pointer"
-                aria-label="썸네일 보기 닫기"
-                tabIndex={0}
-              >
-                <VscChromeClose aria-hidden="true" />
-              </button>
-              <div
-                className="bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default"
-                aria-live="polite"
-              >
-                {currentIndex + 1} / {totalImagesNumber}
+        {totalImagesNumber === 0 ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-white text-center">썸네일이 없습니다.</p>
+          </div>
+        ) : (
+          <div className="relative">
+            <header className="sticky top-0 pt-4 w-full bg-black p-2">
+              <div className="flex w-full justify-between items-center px-3">
+                <button
+                  ref={closeButtonRef}
+                  onClick={() => setIsExpanded(false)}
+                  className="bg-gray-800 text-white p-2 rounded hover:bg-gray-700 focus:bg-gray-700 cursor-pointer"
+                  aria-label="썸네일 보기 닫기"
+                  tabIndex={0}
+                >
+                  <VscChromeClose aria-hidden="true" />
+                </button>
+                {totalImagesNumber && (
+                  <div
+                    className="bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default"
+                    aria-live="polite"
+                  >
+                    {currentIndex + 1} / {totalImagesNumber}
+                  </div>
+                )}
               </div>
-            </div>
-          </header>
+            </header>
 
-          <ul
-            className="grid grid-cols-3 gap-2 p-2"
-            role="listbox"
-            aria-label="이미지 썸네일 목록"
-            tabIndex={0}
-          >
-            {Array.from({ length: totalImagesNumber }).map((_, index) => {
-              const isLoaded = loadedThumbnails.has(index);
-              const thumbnailData = loadedThumbnails.get(index);
+            <ul
+              className="grid grid-cols-3 gap-2 p-2"
+              role="listbox"
+              aria-label="이미지 썸네일 목록"
+              tabIndex={0}
+            >
+              {Array.from({ length: totalImagesNumber ?? 0 }).map(
+                (_, index) => {
+                  const isLoaded = loadedThumbnails.has(index);
+                  const thumbnailData = loadedThumbnails.get(index);
 
-              return (
-                <ThumbnailItem
-                  key={index}
-                  index={index}
-                  currentIndex={currentIndex}
-                  thumbnailData={thumbnailData}
-                  isLoaded={isLoaded}
-                  onClick={onThumbnailClick}
-                />
-              );
-            })}
-          </ul>
-        </div>
+                  return (
+                    <ThumbnailItem
+                      key={index}
+                      index={index}
+                      currentIndex={currentIndex}
+                      thumbnailData={thumbnailData}
+                      isLoaded={isLoaded}
+                      onClick={onThumbnailClick}
+                    />
+                  );
+                }
+              )}
+            </ul>
+          </div>
+        )}
       </section>
 
       {isExpanded && (

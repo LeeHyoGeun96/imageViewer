@@ -12,7 +12,7 @@ interface NavigationControlsProps {
   setIsExpanded: (expanded: boolean) => void;
   isExpanded: boolean;
   currentIndex: number;
-  totalImagesNumber: number;
+  totalImagesNumber?: number;
   toggleOrientation?: () => void; // 선택적 - API가 지원되지 않을 경우 undefined
   orientation: OrientationType;
   isOrientationSupported: boolean;
@@ -101,13 +101,15 @@ const NavigationControls = ({
         )}
       </button>
 
-      <div
-        className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
-        aria-live="polite"
-        role="status"
-      >
-        {currentIndex + 1} / {totalImagesNumber}
-      </div>
+      {totalImagesNumber && (
+        <div
+          className="absolute z-20 bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
+          aria-live="polite"
+          role="status"
+        >
+          {currentIndex + 1} / {totalImagesNumber}
+        </div>
+      )}
     </>
   );
 };

@@ -4,12 +4,21 @@ export interface ImageData {
   alt: string;
 }
 
-export interface ImagesMetadataResponse {
-  totalImages: number;
+export interface ImagesMetadatasResponse {
   images: ImageData[];
 }
-
-const TOTAL_IMAGES = 60;
+const checkImageExists = async (url: string): Promise<boolean> => {
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    return (
+      (response.ok &&
+        response.headers.get("Content-Type")?.includes("image/")) ||
+      false
+    );
+  } catch {
+    return false;
+  }
+};
 
 // 이미지 경로 생성 함수
 const createImagePath = (index: number, isThumb = false): string => {
@@ -18,31 +27,54 @@ const createImagePath = (index: number, isThumb = false): string => {
   return `/assets/images/car/${folder}/car_${num}.jpeg`;
 };
 
-export const fetchAllImagesMetadata =
-  async (): Promise<ImagesMetadataResponse> => {
-    const images = Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
-      id: i,
-      src: createImagePath(i),
-      alt: `자동차 이미지 ${i + 1}`,
-    }));
+export const fetchAllImagesMetadatas =
+  async (): Promise<ImagesMetadatasResponse> => {
+    const images: ImageData[] = [];
+    let index = 0;
+    let imageExists = true;
+
+    // 이미지가 존재하지 않을 때까지 로드
+    while (imageExists) {
+      const imagePath = createImagePath(index);
+      imageExists = await checkImageExists(imagePath);
+
+      if (imageExists) {
+        images.push({
+          id: index,
+          src: imagePath,
+          alt: `자동차 이미지 ${index + 1}`,
+        });
+        index++;
+      }
+    }
 
     return {
-      totalImages: TOTAL_IMAGES,
       images,
     };
   };
 
-export const fetchAllThumbnailMetadata =
-  async (): Promise<ImagesMetadataResponse> => {
-    // 전체 이미지 개수
-    const images = Array.from({ length: TOTAL_IMAGES }, (_, i) => ({
-      id: i,
-      src: createImagePath(i, true),
-      alt: `자동차 이미지 ${i + 1}`,
-    }));
+export const fetchAllThumbnailMetadatas =
+  async (): Promise<ImagesMetadatasResponse> => {
+    const images: ImageData[] = [];
+    let index = 0;
+    let imageExists = true;
+
+    // 썸네일 이미지가 존재하지 않을 때까지 로드
+    while (imageExists) {
+      const imagePath = createImagePath(index, true);
+      imageExists = await checkImageExists(imagePath);
+
+      if (imageExists) {
+        images.push({
+          id: index,
+          src: imagePath,
+          alt: `자동차 이미지 ${index + 1}`,
+        });
+        index++;
+      }
+    }
 
     return {
-      totalImages: TOTAL_IMAGES,
       images,
     };
   };

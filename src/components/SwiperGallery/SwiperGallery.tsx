@@ -1,7 +1,7 @@
 import { useImperativeHandle, forwardRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import { ImageData } from "../../api/imageApi";
+import { ImagesMetadatasResponse } from "../../api/imageApi";
 import TransformViwer from "../reactZoomPanPinch/TransformViwer";
 
 // 외부에서 참조할 수 있는 메서드 정의
@@ -12,14 +12,14 @@ export interface SwiperGalleryRef {
 }
 
 interface SwiperGalleryProps {
-  images: ImageData[];
+  imageMetadatas: ImagesMetadatasResponse;
   initialIndex: number;
   onSlideChange: (index: number) => void;
 }
 
 // forwardRef를 사용하여 ref 노출
 const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
-  ({ images, initialIndex, onSlideChange }, ref) => {
+  ({ imageMetadatas, initialIndex, onSlideChange }, ref) => {
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(
       null
     );
@@ -46,7 +46,7 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
         nested={true}
         className="h-full w-full"
       >
-        {images.map((image) => (
+        {imageMetadatas.images.map((image) => (
           <SwiperSlide key={image.id}>
             <div className="w-full h-full flex items-center justify-center">
               <TransformViwer

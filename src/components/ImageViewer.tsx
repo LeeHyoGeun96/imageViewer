@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ImagesMetadataResponse, ImageData } from "../api/imageApi";
+import { ImagesMetadatasResponse } from "../api/imageApi";
 import { Skeleton } from "./UI/Skeleton";
 import ThumbnailPanel from "./ImageViewer/ThumbnailPanel";
 import NavigationControls from "./ImageViewer/NavigationControls";
@@ -13,18 +13,15 @@ import { useScreenOrientation } from "../hooks/ImageViewer/useScreenOrientation"
 
 interface ImageViewerProps {
   currentIndex: number;
-  thumbnailMetadata?: ImagesMetadataResponse;
+  thumbnailMetadatas?: ImagesMetadatasResponse;
   containerClass?: string;
-  totalImagesNumber: number;
-  currentImageSrcMetadata?: ImageData;
-  imageMetadatas?: ImageData[];
+  imageMetadatas?: ImagesMetadatasResponse;
   onIndexChange: (index: number) => void;
 }
 
 export default function ImageViewer({
   currentIndex,
-  totalImagesNumber,
-  thumbnailMetadata = { images: [], totalImages: 0 },
+  thumbnailMetadatas,
   containerClass = "",
   imageMetadatas,
   onIndexChange,
@@ -38,7 +35,7 @@ export default function ImageViewer({
   const { galleryRef, handleSlideChange, slidePrev, slideNext, slideTo } =
     useImageSlider({ initialIndex: currentIndex, onIndexChange });
   const { isFullscreen, toggleFullscreen } = useFullscreen(containerRef);
-  const { loadedThumbnails } = useThumbnailLoader(thumbnailMetadata);
+  const { loadedThumbnails } = useThumbnailLoader(thumbnailMetadatas);
   useFocusManagement({ isExpanded, focusElementRef: closeButtonRef });
   const {
     orientation,
@@ -82,7 +79,7 @@ export default function ImageViewer({
         setIsExpanded={setIsExpanded}
         isExpanded={isExpanded}
         currentIndex={currentIndex}
-        totalImagesNumber={totalImagesNumber}
+        totalImagesNumber={imageMetadatas?.images.length}
         onNext={slideNext}
         onPrev={slidePrev}
         orientation={orientation}
@@ -92,10 +89,10 @@ export default function ImageViewer({
 
       {/* 이미지 슬라이더 컨테이너 */}
 
-      {imageMetadatas && imageMetadatas.length > 0 ? (
+      {imageMetadatas && imageMetadatas.images.length > 0 ? (
         <SwiperGallery
           ref={galleryRef}
-          images={imageMetadatas}
+          imageMetadatas={imageMetadatas}
           initialIndex={currentIndex}
           onSlideChange={handleSlideChange}
         />
@@ -108,18 +105,21 @@ export default function ImageViewer({
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
         currentIndex={currentIndex}
-        totalImagesNumber={totalImagesNumber}
+        totalImagesNumber={imageMetadatas?.images.length}
         loadedThumbnails={loadedThumbnails}
         onThumbnailClick={handleThumbnailClick}
         closeButtonRef={closeButtonRef}
       />
 
-      <div
-        className="absolute z-10  bottom-4 left-4 bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
-        aria-live="polite"
-      >
-        {currentIndex + 1} / {totalImagesNumber}
-      </div>
+      {imageMetadatas && imageMetadatas.images.length > 0 && (
+        <div
+          className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
+          aria-live="polite"
+          role="status"
+        >
+          {currentIndex + 1} / {imageMetadatas.images.length}
+        </div>
+      )}
     </section>
   );
 }

@@ -1,30 +1,29 @@
 import { useState, useEffect } from "react";
 import {
-  fetchAllThumbnailMetadata,
-  fetchAllImagesMetadata,
-  ImagesMetadataResponse,
+  fetchAllThumbnailMetadatas,
+  fetchAllImagesMetadatas,
+  ImagesMetadatasResponse,
 } from "../api/imageApi";
 
 export function useGalleryData() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [thumbnailMetadata, setThumbnailMetadata] =
-    useState<ImagesMetadataResponse>();
-  const [imageMetadata, setImageMetadata] = useState<ImagesMetadataResponse>();
+  const [thumbnailMetadatas, setThumbnailMetadatas] =
+    useState<ImagesMetadatasResponse>();
+  const [imageMetadatas, setImageMetadatas] =
+    useState<ImagesMetadatasResponse>();
 
   // 메타데이터 로딩
   useEffect(() => {
     const getMetaData = async () => {
-      const [thumbnailMetadata, imageMetadata] = await Promise.all([
-        fetchAllThumbnailMetadata(),
-        fetchAllImagesMetadata(),
+      const [thumbnailMetadatas, imageMetadatas] = await Promise.all([
+        fetchAllThumbnailMetadatas(),
+        fetchAllImagesMetadatas(),
       ]);
-      setThumbnailMetadata(thumbnailMetadata);
-      setImageMetadata(imageMetadata);
+      setThumbnailMetadatas(thumbnailMetadatas);
+      setImageMetadatas(imageMetadatas);
     };
     getMetaData();
   }, []);
-
-  const totalImagesNumber = imageMetadata?.totalImages || 0;
 
   const handleIndexChange = (newIndex: number) => {
     setCurrentIndex(newIndex);
@@ -32,10 +31,9 @@ export function useGalleryData() {
 
   return {
     currentIndex,
-    thumbnailMetadata,
-    imageMetadata,
-    totalImagesNumber,
+    thumbnailMetadatas,
+    imageMetadatas,
+
     handleIndexChange,
-    currentImageMetadata: imageMetadata?.images[currentIndex],
   };
 }
