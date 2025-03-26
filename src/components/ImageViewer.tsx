@@ -21,7 +21,7 @@ interface ImageViewerProps {
 
 export default function ImageViewer({
   currentIndex,
-  thumbnailMetadatas,
+  thumbnailMetadatas = { images: [] },
   containerClass = "",
   imageMetadatas,
   onIndexChange,
@@ -80,6 +80,7 @@ export default function ImageViewer({
         isExpanded={isExpanded}
         currentIndex={currentIndex}
         totalImagesNumber={imageMetadatas?.images.length}
+        totalThumbnailsNumber={thumbnailMetadatas?.images.length}
         onNext={slideNext}
         onPrev={slidePrev}
         orientation={orientation}
@@ -105,7 +106,7 @@ export default function ImageViewer({
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
         currentIndex={currentIndex}
-        totalImagesNumber={imageMetadatas?.images.length}
+        totalImagesNumber={thumbnailMetadatas?.images.length}
         loadedThumbnails={loadedThumbnails}
         onThumbnailClick={handleThumbnailClick}
         closeButtonRef={closeButtonRef}

@@ -11,7 +11,7 @@
 
 @layer components {
   .my-container {
-    @apply max-w-5xl mx-auto;
+    @apply max-w-6xl mx-auto;
   }
   .control-visibility {
     @apply transition-opacity duration-150 opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-focus-within:opacity-100 focus:opacity-100;

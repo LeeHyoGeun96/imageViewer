@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
-import { ImagesMetadataResponse, ImageData } from "../../api/imageApi";
+import { ImagesMetadatasResponse, ImageData } from "../../api/imageApi";
 
-export function useThumbnailLoader(thumbnailMetadata?: ImagesMetadataResponse) {
+export function useThumbnailLoader(
+  thumbnailMetadatas?: ImagesMetadatasResponse
+) {
   const [loadedThumbnails, setLoadedThumbnails] = useState<
     Map<number, ImageData>
   >(new Map());
 
   // 썸네일 이미지 로드
   useEffect(() => {
-    if (!thumbnailMetadata || thumbnailMetadata.images.length === 0) return;
-    const totalImages = thumbnailMetadata.images.length;
-
+    if (!thumbnailMetadatas || thumbnailMetadatas.images.length === 0) return;
+    const totalImages = thumbnailMetadatas.images.length;
     // 배치 크기 설정 - 5개씩 로드
     const BATCH_SIZE = 5;
 
@@ -25,7 +26,7 @@ export function useThumbnailLoader(thumbnailMetadata?: ImagesMetadataResponse) {
 
         // 현재 배치의 이미지들을 로드
         for (let i = batchStart; i < batchEnd; i++) {
-          const thumbData = thumbnailMetadata.images[i];
+          const thumbData = thumbnailMetadatas.images[i];
           if (!thumbData) continue;
 
           const img = new Image();
@@ -50,7 +51,7 @@ export function useThumbnailLoader(thumbnailMetadata?: ImagesMetadataResponse) {
     };
 
     loadThumbnails();
-  }, [thumbnailMetadata]);
+  }, [thumbnailMetadatas]);
 
   return { loadedThumbnails };
 }

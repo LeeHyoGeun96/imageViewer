@@ -13,6 +13,7 @@ interface NavigationControlsProps {
   isExpanded: boolean;
   currentIndex: number;
   totalImagesNumber?: number;
+  totalThumbnailsNumber?: number;
   toggleOrientation?: () => void; // 선택적 - API가 지원되지 않을 경우 undefined
   orientation: OrientationType;
   isOrientationSupported: boolean;
@@ -27,6 +28,7 @@ const NavigationControls = ({
   isExpanded,
   currentIndex,
   totalImagesNumber,
+  totalThumbnailsNumber,
   onNext,
   onPrev,
   toggleOrientation,
@@ -64,16 +66,18 @@ const NavigationControls = ({
         <GrNext aria-hidden="true" />
       </button>
 
-      <button
-        className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 control-visibility"
-        onClick={() => setIsExpanded(!isExpanded)}
-        aria-label="썸네일 보기"
-        aria-expanded={isExpanded}
-        aria-controls="thumbnails-panel"
-        tabIndex={0}
-      >
-        <PiImages aria-hidden="true" />
-      </button>
+      {totalThumbnailsNumber && (
+        <button
+          className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 control-visibility"
+          onClick={() => setIsExpanded(!isExpanded)}
+          aria-label="썸네일 보기"
+          aria-expanded={isExpanded}
+          aria-controls="thumbnails-panel"
+          tabIndex={0}
+        >
+          <PiImages aria-hidden="true" />
+        </button>
+      )}
 
       {/* 화면 방향 전환 버튼 (전체화면 모드이고 API가 지원될 때만 표시) */}
       {isFullscreen && isOrientationSupported && toggleOrientation && (
