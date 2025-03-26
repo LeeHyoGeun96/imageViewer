@@ -7,74 +7,72 @@ export interface ImageData {
 export interface ImagesMetadatasResponse {
   images: ImageData[];
 }
-const checkImageExists = async (url: string): Promise<boolean> => {
+
+// 매니페스트 인터페이스 정의
+interface ImageManifest {
+  bigImages: {
+    id: number;
+    filename: string;
+    src: string;
+    alt: string;
+  }[];
+  thumbnails: {
+    id: number;
+    filename: string;
+    src: string;
+    alt: string;
+  }[];
+  lastUpdated: string;
+  totalCount: {
+    big: number;
+    thumbnail: number;
+  };
+}
+
+// 매니페스트 파일 가져오기
+const fetchImageManifest = async (): Promise<ImageManifest> => {
   try {
-    const response = await fetch(url, { method: "HEAD" });
-    return (
-      (response.ok &&
-        response.headers.get("Content-Type")?.includes("image/")) ||
-      false
-    );
-  } catch {
-    return false;
+    const response = await fetch("/assets/images/manifest.json");
+    if (!response.ok) {
+      throw new Error(
+        `매니페스트 파일을 불러올 수 없습니다: ${response.status}`
+      );
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("이미지 매니페스트 로딩 실패:", error);
+    // 기본 매니페스트 반환 (빈 배열)
+    return {
+      bigImages: [],
+      thumbnails: [],
+      lastUpdated: new Date().toISOString(),
+      totalCount: { big: 0, thumbnail: 0 },
+    };
   }
 };
 
-// 이미지 경로 생성 함수
-const createImagePath = (index: number, isThumb = false): string => {
-  const folder = isThumb ? "carThumbnail" : "carBig";
-  const num = (index + 1).toString().padStart(3, "0");
-  return `/assets/images/car/${folder}/car_${num}.jpeg`;
-};
-
+// 큰 이미지 메타데이터 가져오기
 export const fetchAllImagesMetadatas =
   async (): Promise<ImagesMetadatasResponse> => {
-    const images: ImageData[] = [];
-    let index = 0;
-    let imageExists = true;
-
-    // 이미지가 존재하지 않을 때까지 로드
-    while (imageExists) {
-      const imagePath = createImagePath(index);
-      imageExists = await checkImageExists(imagePath);
-
-      if (imageExists) {
-        images.push({
-          id: index,
-          src: imagePath,
-          alt: `자동차 이미지 ${index + 1}`,
-        });
-        index++;
-      }
-    }
-
+    const manifest = await fetchImageManifest();
     return {
-      images,
+      images: manifest.bigImages.map((img) => ({
+        id: img.id,
+        src: img.src,
+        alt: img.alt,
+      })),
     };
   };
 
+// 썸네일 이미지 메타데이터 가져오기
 export const fetchAllThumbnailMetadatas =
   async (): Promise<ImagesMetadatasResponse> => {
-    const images: ImageData[] = [];
-    let index = 0;
-    let imageExists = true;
-
-    // 썸네일 이미지가 존재하지 않을 때까지 로드
-    while (imageExists) {
-      const imagePath = createImagePath(index, true);
-      imageExists = await checkImageExists(imagePath);
-
-      if (imageExists) {
-        images.push({
-          id: index,
-          src: imagePath,
-          alt: `자동차 이미지 ${index + 1}`,
-        });
-        index++;
-      }
-    }
-
+    const manifest = await fetchImageManifest();
     return {
-      images,
+      images: manifest.thumbnails.map((img) => ({
+        id: img.id,
+        src: img.src,
+        alt: img.alt,
+      })),
     };
   };

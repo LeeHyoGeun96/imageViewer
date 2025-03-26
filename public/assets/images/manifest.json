@@ -1,0 +1,731 @@
+{
+  "bigImages": [
+    {
+      "id": 0,
+      "filename": "car_001.jpeg",
+      "src": "/assets/images/car/carBig/car_001.jpeg",
+      "alt": "자동차 이미지 1"
+    },
+    {
+      "id": 1,
+      "filename": "car_002.jpeg",
+      "src": "/assets/images/car/carBig/car_002.jpeg",
+      "alt": "자동차 이미지 2"
+    },
+    {
+      "id": 2,
+      "filename": "car_003.jpeg",
+      "src": "/assets/images/car/carBig/car_003.jpeg",
+      "alt": "자동차 이미지 3"
+    },
+    {
+      "id": 3,
+      "filename": "car_004.jpeg",
+      "src": "/assets/images/car/carBig/car_004.jpeg",
+      "alt": "자동차 이미지 4"
+    },
+    {
+      "id": 4,
+      "filename": "car_005.jpeg",
+      "src": "/assets/images/car/carBig/car_005.jpeg",
+      "alt": "자동차 이미지 5"
+    },
+    {
+      "id": 5,
+      "filename": "car_006.jpeg",
+      "src": "/assets/images/car/carBig/car_006.jpeg",
+      "alt": "자동차 이미지 6"
+    },
+    {
+      "id": 6,
+      "filename": "car_007.jpeg",
+      "src": "/assets/images/car/carBig/car_007.jpeg",
+      "alt": "자동차 이미지 7"
+    },
+    {
+      "id": 7,
+      "filename": "car_008.jpeg",
+      "src": "/assets/images/car/carBig/car_008.jpeg",
+      "alt": "자동차 이미지 8"
+    },
+    {
+      "id": 8,
+      "filename": "car_009.jpeg",
+      "src": "/assets/images/car/carBig/car_009.jpeg",
+      "alt": "자동차 이미지 9"
+    },
+    {
+      "id": 9,
+      "filename": "car_010.jpeg",
+      "src": "/assets/images/car/carBig/car_010.jpeg",
+      "alt": "자동차 이미지 10"
+    },
+    {
+      "id": 10,
+      "filename": "car_011.jpeg",
+      "src": "/assets/images/car/carBig/car_011.jpeg",
+      "alt": "자동차 이미지 11"
+    },
+    {
+      "id": 11,
+      "filename": "car_012.jpeg",
+      "src": "/assets/images/car/carBig/car_012.jpeg",
+      "alt": "자동차 이미지 12"
+    },
+    {
+      "id": 12,
+      "filename": "car_013.jpeg",
+      "src": "/assets/images/car/carBig/car_013.jpeg",
+      "alt": "자동차 이미지 13"
+    },
+    {
+      "id": 13,
+      "filename": "car_014.jpeg",
+      "src": "/assets/images/car/carBig/car_014.jpeg",
+      "alt": "자동차 이미지 14"
+    },
+    {
+      "id": 14,
+      "filename": "car_015.jpeg",
+      "src": "/assets/images/car/carBig/car_015.jpeg",
+      "alt": "자동차 이미지 15"
+    },
+    {
+      "id": 15,
+      "filename": "car_016.jpeg",
+      "src": "/assets/images/car/carBig/car_016.jpeg",
+      "alt": "자동차 이미지 16"
+    },
+    {
+      "id": 16,
+      "filename": "car_017.jpeg",
+      "src": "/assets/images/car/carBig/car_017.jpeg",
+      "alt": "자동차 이미지 17"
+    },
+    {
+      "id": 17,
+      "filename": "car_018.jpeg",
+      "src": "/assets/images/car/carBig/car_018.jpeg",
+      "alt": "자동차 이미지 18"
+    },
+    {
+      "id": 18,
+      "filename": "car_019.jpeg",
+      "src": "/assets/images/car/carBig/car_019.jpeg",
+      "alt": "자동차 이미지 19"
+    },
+    {
+      "id": 19,
+      "filename": "car_020.jpeg",
+      "src": "/assets/images/car/carBig/car_020.jpeg",
+      "alt": "자동차 이미지 20"
+    },
+    {
+      "id": 20,
+      "filename": "car_021.jpeg",
+      "src": "/assets/images/car/carBig/car_021.jpeg",
+      "alt": "자동차 이미지 21"
+    },
+    {
+      "id": 21,
+      "filename": "car_022.jpeg",
+      "src": "/assets/images/car/carBig/car_022.jpeg",
+      "alt": "자동차 이미지 22"
+    },
+    {
+      "id": 22,
+      "filename": "car_023.jpeg",
+      "src": "/assets/images/car/carBig/car_023.jpeg",
+      "alt": "자동차 이미지 23"
+    },
+    {
+      "id": 23,
+      "filename": "car_024.jpeg",
+      "src": "/assets/images/car/carBig/car_024.jpeg",
+      "alt": "자동차 이미지 24"
+    },
+    {
+      "id": 24,
+      "filename": "car_025.jpeg",
+      "src": "/assets/images/car/carBig/car_025.jpeg",
+      "alt": "자동차 이미지 25"
+    },
+    {
+      "id": 25,
+      "filename": "car_026.jpeg",
+      "src": "/assets/images/car/carBig/car_026.jpeg",
+      "alt": "자동차 이미지 26"
+    },
+    {
+      "id": 26,
+      "filename": "car_027.jpeg",
+      "src": "/assets/images/car/carBig/car_027.jpeg",
+      "alt": "자동차 이미지 27"
+    },
+    {
+      "id": 27,
+      "filename": "car_028.jpeg",
+      "src": "/assets/images/car/carBig/car_028.jpeg",
+      "alt": "자동차 이미지 28"
+    },
+    {
+      "id": 28,
+      "filename": "car_029.jpeg",
+      "src": "/assets/images/car/carBig/car_029.jpeg",
+      "alt": "자동차 이미지 29"
+    },
+    {
+      "id": 29,
+      "filename": "car_030.jpeg",
+      "src": "/assets/images/car/carBig/car_030.jpeg",
+      "alt": "자동차 이미지 30"
+    },
+    {
+      "id": 30,
+      "filename": "car_031.jpeg",
+      "src": "/assets/images/car/carBig/car_031.jpeg",
+      "alt": "자동차 이미지 31"
+    },
+    {
+      "id": 31,
+      "filename": "car_032.jpeg",
+      "src": "/assets/images/car/carBig/car_032.jpeg",
+      "alt": "자동차 이미지 32"
+    },
+    {
+      "id": 32,
+      "filename": "car_033.jpeg",
+      "src": "/assets/images/car/carBig/car_033.jpeg",
+      "alt": "자동차 이미지 33"
+    },
+    {
+      "id": 33,
+      "filename": "car_034.jpeg",
+      "src": "/assets/images/car/carBig/car_034.jpeg",
+      "alt": "자동차 이미지 34"
+    },
+    {
+      "id": 34,
+      "filename": "car_035.jpeg",
+      "src": "/assets/images/car/carBig/car_035.jpeg",
+      "alt": "자동차 이미지 35"
+    },
+    {
+      "id": 35,
+      "filename": "car_036.jpeg",
+      "src": "/assets/images/car/carBig/car_036.jpeg",
+      "alt": "자동차 이미지 36"
+    },
+    {
+      "id": 36,
+      "filename": "car_037.jpeg",
+      "src": "/assets/images/car/carBig/car_037.jpeg",
+      "alt": "자동차 이미지 37"
+    },
+    {
+      "id": 37,
+      "filename": "car_038.jpeg",
+      "src": "/assets/images/car/carBig/car_038.jpeg",
+      "alt": "자동차 이미지 38"
+    },
+    {
+      "id": 38,
+      "filename": "car_039.jpeg",
+      "src": "/assets/images/car/carBig/car_039.jpeg",
+      "alt": "자동차 이미지 39"
+    },
+    {
+      "id": 39,
+      "filename": "car_040.jpeg",
+      "src": "/assets/images/car/carBig/car_040.jpeg",
+      "alt": "자동차 이미지 40"
+    },
+    {
+      "id": 40,
+      "filename": "car_041.jpeg",
+      "src": "/assets/images/car/carBig/car_041.jpeg",
+      "alt": "자동차 이미지 41"
+    },
+    {
+      "id": 41,
+      "filename": "car_042.jpeg",
+      "src": "/assets/images/car/carBig/car_042.jpeg",
+      "alt": "자동차 이미지 42"
+    },
+    {
+      "id": 42,
+      "filename": "car_043.jpeg",
+      "src": "/assets/images/car/carBig/car_043.jpeg",
+      "alt": "자동차 이미지 43"
+    },
+    {
+      "id": 43,
+      "filename": "car_044.jpeg",
+      "src": "/assets/images/car/carBig/car_044.jpeg",
+      "alt": "자동차 이미지 44"
+    },
+    {
+      "id": 44,
+      "filename": "car_045.jpeg",
+      "src": "/assets/images/car/carBig/car_045.jpeg",
+      "alt": "자동차 이미지 45"
+    },
+    {
+      "id": 45,
+      "filename": "car_046.jpeg",
+      "src": "/assets/images/car/carBig/car_046.jpeg",
+      "alt": "자동차 이미지 46"
+    },
+    {
+      "id": 46,
+      "filename": "car_047.jpeg",
+      "src": "/assets/images/car/carBig/car_047.jpeg",
+      "alt": "자동차 이미지 47"
+    },
+    {
+      "id": 47,
+      "filename": "car_048.jpeg",
+      "src": "/assets/images/car/carBig/car_048.jpeg",
+      "alt": "자동차 이미지 48"
+    },
+    {
+      "id": 48,
+      "filename": "car_049.jpeg",
+      "src": "/assets/images/car/carBig/car_049.jpeg",
+      "alt": "자동차 이미지 49"
+    },
+    {
+      "id": 49,
+      "filename": "car_050.jpeg",
+      "src": "/assets/images/car/carBig/car_050.jpeg",
+      "alt": "자동차 이미지 50"
+    },
+    {
+      "id": 50,
+      "filename": "car_051.jpeg",
+      "src": "/assets/images/car/carBig/car_051.jpeg",
+      "alt": "자동차 이미지 51"
+    },
+    {
+      "id": 51,
+      "filename": "car_052.jpeg",
+      "src": "/assets/images/car/carBig/car_052.jpeg",
+      "alt": "자동차 이미지 52"
+    },
+    {
+      "id": 52,
+      "filename": "car_053.jpeg",
+      "src": "/assets/images/car/carBig/car_053.jpeg",
+      "alt": "자동차 이미지 53"
+    },
+    {
+      "id": 53,
+      "filename": "car_054.jpeg",
+      "src": "/assets/images/car/carBig/car_054.jpeg",
+      "alt": "자동차 이미지 54"
+    },
+    {
+      "id": 54,
+      "filename": "car_055.jpeg",
+      "src": "/assets/images/car/carBig/car_055.jpeg",
+      "alt": "자동차 이미지 55"
+    },
+    {
+      "id": 55,
+      "filename": "car_056.jpeg",
+      "src": "/assets/images/car/carBig/car_056.jpeg",
+      "alt": "자동차 이미지 56"
+    },
+    {
+      "id": 56,
+      "filename": "car_057.jpeg",
+      "src": "/assets/images/car/carBig/car_057.jpeg",
+      "alt": "자동차 이미지 57"
+    },
+    {
+      "id": 57,
+      "filename": "car_058.jpeg",
+      "src": "/assets/images/car/carBig/car_058.jpeg",
+      "alt": "자동차 이미지 58"
+    },
+    {
+      "id": 58,
+      "filename": "car_059.jpeg",
+      "src": "/assets/images/car/carBig/car_059.jpeg",
+      "alt": "자동차 이미지 59"
+    },
+    {
+      "id": 59,
+      "filename": "car_060.jpeg",
+      "src": "/assets/images/car/carBig/car_060.jpeg",
+      "alt": "자동차 이미지 60"
+    }
+  ],
+  "thumbnails": [
+    {
+      "id": 0,
+      "filename": "car_001.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_001.jpeg",
+      "alt": "자동차 이미지 1"
+    },
+    {
+      "id": 1,
+      "filename": "car_002.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_002.jpeg",
+      "alt": "자동차 이미지 2"
+    },
+    {
+      "id": 2,
+      "filename": "car_003.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_003.jpeg",
+      "alt": "자동차 이미지 3"
+    },
+    {
+      "id": 3,
+      "filename": "car_004.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_004.jpeg",
+      "alt": "자동차 이미지 4"
+    },
+    {
+      "id": 4,
+      "filename": "car_005.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_005.jpeg",
+      "alt": "자동차 이미지 5"
+    },
+    {
+      "id": 5,
+      "filename": "car_006.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_006.jpeg",
+      "alt": "자동차 이미지 6"
+    },
+    {
+      "id": 6,
+      "filename": "car_007.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_007.jpeg",
+      "alt": "자동차 이미지 7"
+    },
+    {
+      "id": 7,
+      "filename": "car_008.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_008.jpeg",
+      "alt": "자동차 이미지 8"
+    },
+    {
+      "id": 8,
+      "filename": "car_009.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_009.jpeg",
+      "alt": "자동차 이미지 9"
+    },
+    {
+      "id": 9,
+      "filename": "car_010.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_010.jpeg",
+      "alt": "자동차 이미지 10"
+    },
+    {
+      "id": 10,
+      "filename": "car_011.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_011.jpeg",
+      "alt": "자동차 이미지 11"
+    },
+    {
+      "id": 11,
+      "filename": "car_012.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_012.jpeg",
+      "alt": "자동차 이미지 12"
+    },
+    {
+      "id": 12,
+      "filename": "car_013.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_013.jpeg",
+      "alt": "자동차 이미지 13"
+    },
+    {
+      "id": 13,
+      "filename": "car_014.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_014.jpeg",
+      "alt": "자동차 이미지 14"
+    },
+    {
+      "id": 14,
+      "filename": "car_015.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_015.jpeg",
+      "alt": "자동차 이미지 15"
+    },
+    {
+      "id": 15,
+      "filename": "car_016.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_016.jpeg",
+      "alt": "자동차 이미지 16"
+    },
+    {
+      "id": 16,
+      "filename": "car_017.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_017.jpeg",
+      "alt": "자동차 이미지 17"
+    },
+    {
+      "id": 17,
+      "filename": "car_018.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_018.jpeg",
+      "alt": "자동차 이미지 18"
+    },
+    {
+      "id": 18,
+      "filename": "car_019.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_019.jpeg",
+      "alt": "자동차 이미지 19"
+    },
+    {
+      "id": 19,
+      "filename": "car_020.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_020.jpeg",
+      "alt": "자동차 이미지 20"
+    },
+    {
+      "id": 20,
+      "filename": "car_021.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_021.jpeg",
+      "alt": "자동차 이미지 21"
+    },
+    {
+      "id": 21,
+      "filename": "car_022.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_022.jpeg",
+      "alt": "자동차 이미지 22"
+    },
+    {
+      "id": 22,
+      "filename": "car_023.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_023.jpeg",
+      "alt": "자동차 이미지 23"
+    },
+    {
+      "id": 23,
+      "filename": "car_024.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_024.jpeg",
+      "alt": "자동차 이미지 24"
+    },
+    {
+      "id": 24,
+      "filename": "car_025.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_025.jpeg",
+      "alt": "자동차 이미지 25"
+    },
+    {
+      "id": 25,
+      "filename": "car_026.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_026.jpeg",
+      "alt": "자동차 이미지 26"
+    },
+    {
+      "id": 26,
+      "filename": "car_027.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_027.jpeg",
+      "alt": "자동차 이미지 27"
+    },
+    {
+      "id": 27,
+      "filename": "car_028.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_028.jpeg",
+      "alt": "자동차 이미지 28"
+    },
+    {
+      "id": 28,
+      "filename": "car_029.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_029.jpeg",
+      "alt": "자동차 이미지 29"
+    },
+    {
+      "id": 29,
+      "filename": "car_030.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_030.jpeg",
+      "alt": "자동차 이미지 30"
+    },
+    {
+      "id": 30,
+      "filename": "car_031.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_031.jpeg",
+      "alt": "자동차 이미지 31"
+    },
+    {
+      "id": 31,
+      "filename": "car_032.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_032.jpeg",
+      "alt": "자동차 이미지 32"
+    },
+    {
+      "id": 32,
+      "filename": "car_033.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_033.jpeg",
+      "alt": "자동차 이미지 33"
+    },
+    {
+      "id": 33,
+      "filename": "car_034.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_034.jpeg",
+      "alt": "자동차 이미지 34"
+    },
+    {
+      "id": 34,
+      "filename": "car_035.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_035.jpeg",
+      "alt": "자동차 이미지 35"
+    },
+    {
+      "id": 35,
+      "filename": "car_036.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_036.jpeg",
+      "alt": "자동차 이미지 36"
+    },
+    {
+      "id": 36,
+      "filename": "car_037.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_037.jpeg",
+      "alt": "자동차 이미지 37"
+    },
+    {
+      "id": 37,
+      "filename": "car_038.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_038.jpeg",
+      "alt": "자동차 이미지 38"
+    },
+    {
+      "id": 38,
+      "filename": "car_039.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_039.jpeg",
+      "alt": "자동차 이미지 39"
+    },
+    {
+      "id": 39,
+      "filename": "car_040.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_040.jpeg",
+      "alt": "자동차 이미지 40"
+    },
+    {
+      "id": 40,
+      "filename": "car_041.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_041.jpeg",
+      "alt": "자동차 이미지 41"
+    },
+    {
+      "id": 41,
+      "filename": "car_042.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_042.jpeg",
+      "alt": "자동차 이미지 42"
+    },
+    {
+      "id": 42,
+      "filename": "car_043.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_043.jpeg",
+      "alt": "자동차 이미지 43"
+    },
+    {
+      "id": 43,
+      "filename": "car_044.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_044.jpeg",
+      "alt": "자동차 이미지 44"
+    },
+    {
+      "id": 44,
+      "filename": "car_045.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_045.jpeg",
+      "alt": "자동차 이미지 45"
+    },
+    {
+      "id": 45,
+      "filename": "car_046.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_046.jpeg",
+      "alt": "자동차 이미지 46"
+    },
+    {
+      "id": 46,
+      "filename": "car_047.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_047.jpeg",
+      "alt": "자동차 이미지 47"
+    },
+    {
+      "id": 47,
+      "filename": "car_048.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_048.jpeg",
+      "alt": "자동차 이미지 48"
+    },
+    {
+      "id": 48,
+      "filename": "car_049.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_049.jpeg",
+      "alt": "자동차 이미지 49"
+    },
+    {
+      "id": 49,
+      "filename": "car_050.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_050.jpeg",
+      "alt": "자동차 이미지 50"
+    },
+    {
+      "id": 50,
+      "filename": "car_051.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_051.jpeg",
+      "alt": "자동차 이미지 51"
+    },
+    {
+      "id": 51,
+      "filename": "car_052.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_052.jpeg",
+      "alt": "자동차 이미지 52"
+    },
+    {
+      "id": 52,
+      "filename": "car_053.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_053.jpeg",
+      "alt": "자동차 이미지 53"
+    },
+    {
+      "id": 53,
+      "filename": "car_054.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_054.jpeg",
+      "alt": "자동차 이미지 54"
+    },
+    {
+      "id": 54,
+      "filename": "car_055.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_055.jpeg",
+      "alt": "자동차 이미지 55"
+    },
+    {
+      "id": 55,
+      "filename": "car_056.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_056.jpeg",
+      "alt": "자동차 이미지 56"
+    },
+    {
+      "id": 56,
+      "filename": "car_057.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_057.jpeg",
+      "alt": "자동차 이미지 57"
+    },
+    {
+      "id": 57,
+      "filename": "car_058.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_058.jpeg",
+      "alt": "자동차 이미지 58"
+    },
+    {
+      "id": 58,
+      "filename": "car_059.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_059.jpeg",
+      "alt": "자동차 이미지 59"
+    },
+    {
+      "id": 59,
+      "filename": "car_060.jpeg",
+      "src": "/assets/images/car/carThumbnail/car_060.jpeg",
+      "alt": "자동차 이미지 60"
+    }
+  ],
+  "lastUpdated": "2025-03-26T06:33:18.604Z",
+  "totalCount": {
+    "big": 60,
+    "thumbnail": 60
+  }
+}

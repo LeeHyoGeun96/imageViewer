@@ -4,6 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "generate-manifest": "node scripts/generate-image-list.js",
+    "prebuild": "npm run generate-manifest",
+    "predev": "npm run generate-manifest",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
