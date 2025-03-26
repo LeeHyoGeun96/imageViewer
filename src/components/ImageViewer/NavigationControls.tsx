@@ -55,6 +55,7 @@ const NavigationControls = ({
       >
         <GrPrevious aria-hidden="true" />
       </button>
+
       <button
         onClick={handleNext}
         aria-label="다음 이미지"
@@ -66,7 +67,7 @@ const NavigationControls = ({
         <GrNext aria-hidden="true" />
       </button>
 
-      {totalThumbnailsNumber && (
+      {!!totalThumbnailsNumber && (
         <button
           className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 control-visibility"
           onClick={() => setIsExpanded(!isExpanded)}
