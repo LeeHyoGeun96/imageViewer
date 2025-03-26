@@ -98,7 +98,7 @@ export default function ImageViewer({
           onSlideChange={handleSlideChange}
         />
       ) : (
-        <Skeleton aria-label="이미지 로딩 중" />
+        <Skeleton aria-label="이미지 로딩 중" spinnerSize={16} />
       )}
 
       {/* 썸네일 패널 */}
@@ -111,16 +111,6 @@ export default function ImageViewer({
         onThumbnailClick={handleThumbnailClick}
         closeButtonRef={closeButtonRef}
       />
-
-      {imageMetadatas && imageMetadatas.images.length > 0 && (
-        <div
-          className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
-          aria-live="polite"
-          role="status"
-        >
-          {currentIndex + 1} / {imageMetadatas.images.length}
-        </div>
-      )}
     </section>
   );
 }

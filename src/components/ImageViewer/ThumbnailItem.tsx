@@ -40,7 +40,7 @@ const ThumbnailItem = ({
           className="w-full h-auto"
         />
       ) : (
-        <Skeleton spinnerSize={5} aria-label={`이미지 ${index + 1} 로딩 중`} />
+        <Skeleton spinnerSize={8} aria-label={`이미지 ${index + 1} 로딩 중`} />
       )}
     </div>
   );

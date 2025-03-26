@@ -1,16 +1,24 @@
 interface SkeletonProps {
   className?: string;
-  spinnerSize?: number;
+  spinnerSize?: 4 | 8 | 12 | 16 | 20 | 24;
 }
 
 export const Skeleton = ({ className, spinnerSize = 16 }: SkeletonProps) => {
+  const sizeClasses = {
+    4: "size-4",
+    8: "size-8",
+    12: "size-12",
+    16: "size-16",
+    20: "size-20",
+    24: "size-24",
+  };
   return (
     <div
       className={`w-full h-full flex items-center justify-center ${className}`}
     >
       <div className="flex items-center justify-center animate-pulse w-full h-full bg-gray-300">
         <svg
-          className={`mr-3 size-${spinnerSize} animate-spin `}
+          className={`mr-3 ${sizeClasses[spinnerSize]} animate-spin `}
           viewBox="0 0 24 24"
         >
           <circle
