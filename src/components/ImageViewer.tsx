@@ -12,6 +12,22 @@ import { useFocusManagement } from "../hooks/ImageViewer/useFocusManagement";
 import { useScreenOrientation } from "../hooks/ImageViewer/useScreenOrientation";
 
 interface ImageViewerProps {
+  /** 현재 표시할 이미지의 인덱스 */
+  currentIndex: number;
+
+  /** 썸네일 이미지 메타데이터 (없으면 빈 배열) */
+  thumbnailMetadatas?: ImagesMetadatasResponse;
+
+  /** 추가 CSS 클래스명 */
+  containerClass?: string;
+
+  /** 메인 이미지 메타데이터 (없으면 스켈레톤 표시) */
+  imageMetadatas?: ImagesMetadatasResponse;
+
+  /** 이미지 변경 시 호출되는 함수 */
+  onIndexChange: (index: number) => void;
+}
+interface ImageViewerProps {
   currentIndex: number;
   thumbnailMetadatas?: ImagesMetadatasResponse;
   containerClass?: string;
