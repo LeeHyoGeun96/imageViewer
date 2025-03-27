@@ -15,7 +15,7 @@ const ZoomControls = ({
   isCurrentImage,
 }: ZoomControlsProps) => {
   return (
-    <section
+    <div
       aria-label="이미지 확대/축소 컨트롤"
       role="toolbar"
       className="flex gap-1 tools absolute bottom-4 right-4 z-10 rounded"
@@ -47,7 +47,7 @@ const ZoomControls = ({
       >
         <IoReloadSharp aria-hidden="true" />
       </button>
-    </section>
+    </div>
   );
 };
 
