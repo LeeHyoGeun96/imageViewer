@@ -75,6 +75,7 @@ const NavigationControls = ({
           aria-expanded={isExpanded}
           aria-controls="thumbnails-panel"
           tabIndex={0}
+          type="button"
         >
           <PiImages aria-hidden="true" />
         </button>
@@ -84,6 +85,8 @@ const NavigationControls = ({
       {isFullscreen && isOrientationSupported && toggleOrientation && (
         <button
           className="absolute top-4 right-16 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
+          type="button"
+          tabIndex={0}
           onClick={toggleOrientation}
           aria-label={
             orientation === "portrait" ? "가로 모드로 전환" : "세로 모드로 전환"
@@ -98,6 +101,7 @@ const NavigationControls = ({
         onClick={toggleFullscreen}
         aria-label={isFullscreen ? "전체화면 종료" : "전체화면으로 보기"}
         tabIndex={0}
+        type="button"
       >
         {isFullscreen ? (
           <IoContract aria-hidden="true" />
