@@ -1,19 +1,19 @@
 import { useEffect, useRef } from "react";
 
 interface UseFocusManagementProps {
-  isExpanded: boolean;
+  isThumbnailExpanded: boolean;
   focusElementRef: React.RefObject<HTMLElement | null>;
 }
 
 export function useFocusManagement({
-  isExpanded,
+  isThumbnailExpanded,
   focusElementRef,
 }: UseFocusManagementProps) {
   const lastFocusedElementRef = useRef<HTMLElement>(null);
 
   // 포커스 관리
   useEffect(() => {
-    if (isExpanded) {
+    if (isThumbnailExpanded) {
       lastFocusedElementRef.current = document.activeElement as HTMLElement;
 
       setTimeout(() => {
@@ -28,7 +28,7 @@ export function useFocusManagement({
         }
       }, 100);
     }
-  }, [isExpanded, focusElementRef]);
+  }, [isThumbnailExpanded, focusElementRef]);
 
   return { lastFocusedElement: lastFocusedElementRef.current };
 }

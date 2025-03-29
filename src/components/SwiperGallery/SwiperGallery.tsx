@@ -36,27 +36,36 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
     };
 
     return (
-      <Swiper
-        spaceBetween={10}
-        slidesPerView={1}
-        onSlideChange={handleSlideChange}
-        onSwiper={setSwiperInstance}
-        initialSlide={initialIndex}
-        mousewheel={false}
-        nested={true}
-        className="h-full w-full"
-      >
-        {imageMetadatas.images.map((image) => (
-          <SwiperSlide key={image.id}>
-            <div className="w-full h-full flex items-center justify-center">
-              <TransformViwer
-                currentImageSrcMetadata={image}
-                currentIndex={initialIndex}
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <>
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          {`이미지 ${
+            swiperInstance?.activeIndex !== undefined
+              ? swiperInstance.activeIndex + 1
+              : initialIndex + 1
+          }/${imageMetadatas.images.length}`}
+        </div>
+        <Swiper
+          spaceBetween={10}
+          slidesPerView={1}
+          onSlideChange={handleSlideChange}
+          onSwiper={setSwiperInstance}
+          initialSlide={initialIndex}
+          mousewheel={false}
+          nested={true}
+          className="h-full w-full"
+        >
+          {imageMetadatas.images.map((image) => (
+            <SwiperSlide key={image.id}>
+              <div className="w-full h-full flex items-center justify-center">
+                <TransformViwer
+                  currentImageSrcMetadata={image}
+                  currentIndex={initialIndex}
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </>
     );
   }
 );

@@ -5,7 +5,8 @@ interface UseKeyboardNavigationProps {
   onNext: () => void;
   onFullscreen?: () => void;
   onEscapeExpanded?: () => void;
-  isExpanded?: boolean;
+  setIsThumbnailExpanded?: React.Dispatch<React.SetStateAction<boolean>>;
+  isThumbnailExpanded?: boolean;
   enabled?: boolean;
 }
 
@@ -14,7 +15,8 @@ export function useKeyboardNavigation({
   onNext,
   onFullscreen,
   onEscapeExpanded,
-  isExpanded = false,
+  setIsThumbnailExpanded,
+  isThumbnailExpanded = false,
   enabled = true,
 }: UseKeyboardNavigationProps) {
   useEffect(() => {
@@ -27,8 +29,14 @@ export function useKeyboardNavigation({
         onNext();
       } else if (e.key === "f" && onFullscreen) {
         onFullscreen();
-      } else if (e.key === "Escape" && isExpanded && onEscapeExpanded) {
+      } else if (
+        e.key === "Escape" &&
+        isThumbnailExpanded &&
+        onEscapeExpanded
+      ) {
         onEscapeExpanded();
+      } else if (e.key === "t" && setIsThumbnailExpanded) {
+        setIsThumbnailExpanded((prev) => !prev);
       }
     };
 
@@ -36,5 +44,13 @@ export function useKeyboardNavigation({
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [onPrev, onNext, onFullscreen, onEscapeExpanded, isExpanded, enabled]);
+  }, [
+    onPrev,
+    onNext,
+    onFullscreen,
+    onEscapeExpanded,
+    setIsThumbnailExpanded,
+    isThumbnailExpanded,
+    enabled,
+  ]);
 }

@@ -4,8 +4,8 @@ import { VscChromeClose } from "react-icons/vsc";
 import ThumbnailItem from "./ThumbnailItem";
 
 interface ThumbnailPanelProps {
-  isExpanded: boolean;
-  setIsExpanded: (expanded: boolean) => void;
+  isThumbnailExpanded: boolean;
+  setIsThumbnailExpanded: React.Dispatch<React.SetStateAction<boolean>>;
   currentIndex: number;
   totalImagesNumber?: number;
   loadedThumbnails: Map<number, ImageData>;
@@ -14,8 +14,8 @@ interface ThumbnailPanelProps {
 }
 
 const ThumbnailPanel = ({
-  isExpanded,
-  setIsExpanded,
+  isThumbnailExpanded,
+  setIsThumbnailExpanded,
   currentIndex,
   totalImagesNumber,
   loadedThumbnails,
@@ -56,9 +56,9 @@ const ThumbnailPanel = ({
     return () => {
       document.removeEventListener("keydown", handleTabKey);
     };
-  }, [isExpanded]);
+  }, [isThumbnailExpanded]);
 
-  if (!isExpanded || !totalImagesNumber) return;
+  if (!isThumbnailExpanded || !totalImagesNumber) return;
 
   return (
     <>
@@ -66,11 +66,11 @@ const ThumbnailPanel = ({
         id="thumbnails-panel"
         ref={thumbnailPanelRef}
         className={`absolute left-0 top-0 bg-black bg-opacity-80 w-full md:w-1/2 h-full overflow-y-auto z-30 ${
-          isExpanded ? "block" : "hidden"
+          isThumbnailExpanded ? "block" : "hidden"
         }`}
         role="dialog"
         aria-label="썸네일 갤러리"
-        aria-modal={isExpanded}
+        aria-modal={isThumbnailExpanded}
       >
         (
         <div className="relative">
@@ -78,7 +78,7 @@ const ThumbnailPanel = ({
             <div className="flex w-full justify-between items-center px-3">
               <button
                 ref={closeButtonRef}
-                onClick={() => setIsExpanded(false)}
+                onClick={() => setIsThumbnailExpanded(false)}
                 className="bg-gray-800 text-white p-2 rounded hover:bg-gray-700 focus:bg-gray-700 cursor-pointer"
                 aria-label="썸네일 보기 닫기"
                 tabIndex={0}
@@ -121,10 +121,10 @@ const ThumbnailPanel = ({
         </div>
       </section>
 
-      {isExpanded && (
+      {isThumbnailExpanded && (
         <div
           className="absolute inset-0 bg-black/50 z-20"
-          onClick={() => setIsExpanded(false)}
+          onClick={() => setIsThumbnailExpanded(false)}
           role="presentation"
         />
       )}

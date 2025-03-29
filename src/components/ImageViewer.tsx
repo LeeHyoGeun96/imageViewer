@@ -42,7 +42,7 @@ export default function ImageViewer({
   imageMetadatas,
   onIndexChange,
 }: ImageViewerProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isThumbnailExpanded, setIsThumbnailExpanded] = useState(false);
   // Refs
   const containerRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -52,7 +52,7 @@ export default function ImageViewer({
     useImageSlider({ initialIndex: currentIndex, onIndexChange });
   const { isFullscreen, toggleFullscreen } = useFullscreen(containerRef);
   const { loadedThumbnails } = useThumbnailLoader(thumbnailMetadatas);
-  useFocusManagement({ isExpanded, focusElementRef: closeButtonRef });
+  useFocusManagement({ isThumbnailExpanded, focusElementRef: closeButtonRef });
   const {
     orientation,
     isSupported: isOrientationSupported,
@@ -63,8 +63,9 @@ export default function ImageViewer({
     onPrev: slidePrev,
     onNext: slideNext,
     onFullscreen: toggleFullscreen,
-    onEscapeExpanded: () => setIsExpanded(false),
-    isExpanded,
+    onEscapeExpanded: () => setIsThumbnailExpanded(false),
+    isThumbnailExpanded: isThumbnailExpanded,
+    setIsThumbnailExpanded: setIsThumbnailExpanded,
   });
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function ImageViewer({
   // Swiper 슬라이드 변경 시 인덱스 업데이트
   const handleThumbnailClick = (index: number) => {
     slideTo(index);
-    setIsExpanded(false);
+    setIsThumbnailExpanded(false);
   };
 
   return (
@@ -92,8 +93,8 @@ export default function ImageViewer({
       <NavigationControls
         toggleFullscreen={toggleFullscreen}
         isFullscreen={isFullscreen}
-        setIsExpanded={setIsExpanded}
-        isExpanded={isExpanded}
+        setIsThumbnailExpanded={setIsThumbnailExpanded}
+        isThumbnailExpanded={isThumbnailExpanded}
         currentIndex={currentIndex}
         totalImagesNumber={imageMetadatas?.images.length}
         totalThumbnailsNumber={thumbnailMetadatas?.images.length}
@@ -119,8 +120,8 @@ export default function ImageViewer({
 
       {/* 썸네일 패널 */}
       <ThumbnailPanel
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
+        isThumbnailExpanded={isThumbnailExpanded}
+        setIsThumbnailExpanded={setIsThumbnailExpanded}
         currentIndex={currentIndex}
         totalImagesNumber={thumbnailMetadatas?.images.length}
         loadedThumbnails={loadedThumbnails}
