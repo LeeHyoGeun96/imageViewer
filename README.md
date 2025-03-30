@@ -44,6 +44,8 @@
 | ![Image](https://github.com/user-attachments/assets/89e984ef-8422-43fc-822c-4aeb2b8a3fc8) | ![Image](https://github.com/user-attachments/assets/f276a46e-8343-4687-a1c5-147fddbfc473) |
 |          **탭 인덱스**          |           **포커스 트래핑**           |
 | ![Image](https://github.com/user-attachments/assets/8d84e696-8b77-4a23-8d0d-0b2335db6740) | ![Image](https://github.com/user-attachments/assets/d4769d87-da86-42f3-b797-73e44a0dd259)|
+|          **버튼 툴팁**          |           **모든 기능 키보드로 접근 가능**           |
+| ![Image](https://github.com/user-attachments/assets/0cddd94c-80a2-43b3-99e9-2869d14a3d92)| ![Image](https://github.com/user-attachments/assets/ea210ae4-d8b5-4a82-aeeb-9ce1419de5c1)|
 
 
 </div>
@@ -85,6 +87,8 @@
 │   │   ├───📄 ImageRenderer .tsx
 │   │   ├───📄 TransformViwer.tsx
 │   │   └───📄 ZoomControls.tsx
+│   ├───📁 ui/
+│   │   └───📄 tooltip.tsx
 │   └───📄 ImageViewer.tsx
 ├───📁 hooks/
 │   ├───📁 ImageViewer/
@@ -97,9 +101,12 @@
 │   ├───📁 TransformViwer/
 │   │   ├───📄 usePanningControl.tsx
 │   │   ├───📄 useSwipeMessage.tsx
+│   │   ├───📄 useTransformViewerShortcuts.tsx
 │   │   └───📄 useZoomControl.tsx
 │   ├───📄 useGalleryData.tsx
 │   └───📄 useImagePreloader.tsx
+├───📁 lib/
+│   └───📄 utils.ts
 ├───📄 App.tsx
 ├───📄 index.css
 ├───📄 main.tsx
@@ -151,7 +158,7 @@
 
 ### 접근성 기능
 
--   키보드 내비게이션 완벽 지원 (좌/우 화살표, Esc, tab, Shift+ tab, f)
+-   키보드 내비게이션 완벽 지원 (좌/우 화살표, Esc, tab, Shift+ tab, f, 확대 후 패닝)
 -   적절한 ARIA 속성과 스크린 리더 호환성
 -   접근성 표준을 준수한 포커스 관리
 
