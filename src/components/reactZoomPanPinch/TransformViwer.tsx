@@ -96,7 +96,9 @@ const TransformViwer = ({
                   <DoubleClickIconSVG className="size-20 fill-white " />
                   <span className="mx-1">또는</span>
                   <IoReloadSharp className="size-20" />
-                  <span>을 사용하여 이미지를 초기화 하고 스와이프 하세요</span>
+                  <span>
+                    숫자 0을 사용하여 이미지를 초기화 하고 스와이프 하세요
+                  </span>
                 </div>
               </div>
             )}
