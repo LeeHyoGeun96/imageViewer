@@ -6,6 +6,10 @@ interface TransformViewerShortcutProps {
   zoomOut: () => void;
   resetTransform: () => void;
   isCurrentImage: boolean;
+  handleKeyboardPanning: (
+    direction: "left" | "right" | "up" | "down",
+    e: KeyboardEvent
+  ) => void;
 }
 
 export function useTransformViewerShortcuts({
@@ -13,6 +17,7 @@ export function useTransformViewerShortcuts({
   zoomOut,
   resetTransform,
   isCurrentImage,
+  handleKeyboardPanning,
 }: TransformViewerShortcutProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,10 +40,22 @@ export function useTransformViewerShortcuts({
         case "0":
           resetTransform();
           break;
+        case "ArrowLeft":
+          handleKeyboardPanning("left", e);
+          break;
+        case "ArrowRight":
+          handleKeyboardPanning("right", e);
+          break;
+        case "ArrowUp":
+          handleKeyboardPanning("up", e);
+          break;
+        case "ArrowDown":
+          handleKeyboardPanning("down", e);
+          break;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [zoomIn, zoomOut, resetTransform, isCurrentImage]);
+  }, [zoomIn, zoomOut, resetTransform, isCurrentImage, handleKeyboardPanning]);
 }

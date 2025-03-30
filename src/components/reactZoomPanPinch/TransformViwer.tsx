@@ -9,6 +9,7 @@ import { IoReloadSharp } from "react-icons/io5";
 import useSwipeMessage from "../../hooks/TransformViwer/useSwipeMessage";
 import useZoomControl from "../../hooks/TransformViwer/useZoomControl";
 import usePanningControl from "../../hooks/TransformViwer/usePanningControl";
+import { useTransformViewerShortcuts } from "../../hooks/TransformViwer/useTransformViewerShortcuts";
 
 interface TransformViwerProps {
   currentImageSrcMetadata?: ImageData;
@@ -38,14 +39,21 @@ const TransformViwer = ({
     customResetTransform,
     customSetTransform,
   } = useZoomControl({ swiper, isCurrentImage });
-
   const { showMessage, showSwipeMessage } = useSwipeMessage(isZoomed);
-  const { debouncedHandlePanning, handlePanningStop } = usePanningControl({
-    isZoomed,
-    showSwipeMessage,
-    setTransform: customSetTransform,
+  const { debouncedHandlePanning, handlePanningStop, handleKeyboardPanning } =
+    usePanningControl({
+      isZoomed,
+      showSwipeMessage,
+      setTransform: customSetTransform,
+      isCurrentImage,
+      transformRef: transformRef.current,
+    });
+  useTransformViewerShortcuts({
+    zoomIn: customZoomIn,
+    zoomOut: customZoomOut,
+    resetTransform: customResetTransform,
     isCurrentImage,
-    transformRef: transformRef.current,
+    handleKeyboardPanning,
   });
 
   // 이미지가 변경될 때 transform 초기화

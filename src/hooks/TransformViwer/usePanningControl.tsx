@@ -197,45 +197,6 @@ function usePanningControl({
     ]
   );
 
-  // 키보드 이벤트 리스너 등록
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // 폼 요소에 포커스되어 있거나 확대되지 않은 경우 무시
-
-      if (!isZoomed) {
-        return;
-      }
-
-      let direction: "left" | "right" | "up" | "down" | null = null;
-
-      switch (e.key) {
-        case "ArrowLeft":
-          direction = "left";
-          break;
-        case "ArrowRight":
-          direction = "right";
-          break;
-        case "ArrowUp":
-          direction = "up";
-          break;
-        case "ArrowDown":
-          direction = "down";
-          break;
-        default:
-          return; // 관련 없는 키는 무시
-      }
-
-      if (direction) {
-        handleKeyboardPanning(direction, e);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isZoomed, handleKeyboardPanning]);
-
   // 클린업
   useEffect(() => {
     const currentDebouncedHandler = debouncedHandlePanning;
@@ -244,7 +205,7 @@ function usePanningControl({
     };
   }, [debouncedHandlePanning]);
 
-  return { debouncedHandlePanning, handlePanningStop };
+  return { debouncedHandlePanning, handlePanningStop, handleKeyboardPanning };
 }
 
 export default usePanningControl;

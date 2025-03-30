@@ -1,4 +1,3 @@
-import { useTransformViewerShortcuts } from "../../hooks/TransformViwer/useTransformViewerShortcuts";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import { IoReloadSharp } from "react-icons/io5";
 import {
@@ -22,13 +21,6 @@ const ZoomControls = ({
   resetTransform,
   isCurrentImage,
 }: ZoomControlsProps) => {
-  useTransformViewerShortcuts({
-    zoomIn,
-    zoomOut,
-    resetTransform,
-    isCurrentImage,
-  });
-
   return (
     <TooltipProvider>
       <div
