@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../components/ui/tooltip";
+import { memo } from "react";
 
 interface ZoomControlsProps {
   zoomIn: () => void;
@@ -90,4 +91,4 @@ const ZoomControls = ({
   );
 };
 
-export default ZoomControls;
+export default memo(ZoomControls);

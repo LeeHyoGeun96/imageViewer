@@ -46,6 +46,7 @@ export default function ImageViewer({
   // Refs
   const containerRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   // 커스텀 훅 사용
   const { galleryRef, handleSlideChange, slidePrev, slideNext, slideTo } =
@@ -66,6 +67,7 @@ export default function ImageViewer({
     onEscapeExpanded: () => setIsThumbnailExpanded(false),
     isThumbnailExpanded: isThumbnailExpanded,
     setIsThumbnailExpanded: setIsThumbnailExpanded,
+    isZoomed: isZoomed,
   });
 
   useEffect(() => {
@@ -113,6 +115,7 @@ export default function ImageViewer({
           imageMetadatas={imageMetadatas}
           initialIndex={currentIndex}
           onSlideChange={handleSlideChange}
+          setIsZoomed={setIsZoomed}
         />
       ) : (
         <Skeleton aria-label="이미지 로딩 중" spinnerSize={16} />
@@ -127,6 +130,7 @@ export default function ImageViewer({
         loadedThumbnails={loadedThumbnails}
         onThumbnailClick={handleThumbnailClick}
         closeButtonRef={closeButtonRef}
+        setIsZoomed={setIsZoomed}
       />
     </section>
   );

@@ -8,6 +8,7 @@ interface UseKeyboardNavigationProps {
   setIsThumbnailExpanded?: React.Dispatch<React.SetStateAction<boolean>>;
   isThumbnailExpanded?: boolean;
   enabled?: boolean;
+  isZoomed?: boolean;
 }
 
 export function useKeyboardNavigation({
@@ -18,14 +19,17 @@ export function useKeyboardNavigation({
   setIsThumbnailExpanded,
   isThumbnailExpanded = false,
   enabled = true,
+  isZoomed = false,
 }: UseKeyboardNavigationProps) {
   useEffect(() => {
     if (!enabled) return;
 
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
+        if (isZoomed) return;
         onPrev();
       } else if (e.key === "ArrowRight") {
+        if (isZoomed) return;
         onNext();
       } else if (e.key === "f" && onFullscreen) {
         onFullscreen();
@@ -52,5 +56,6 @@ export function useKeyboardNavigation({
     setIsThumbnailExpanded,
     isThumbnailExpanded,
     enabled,
+    isZoomed,
   ]);
 }
