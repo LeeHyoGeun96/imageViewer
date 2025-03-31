@@ -1,4 +1,3 @@
-// src/hooks/useTransformViewerShortcuts.tsx
 import { useEffect } from "react";
 
 interface TransformViewerShortcutProps {
