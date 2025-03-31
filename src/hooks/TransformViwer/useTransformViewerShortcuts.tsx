@@ -30,7 +30,6 @@ export function useTransformViewerShortcuts({
 
       switch (e.key) {
         case "+":
-        case "=":
           zoomIn();
           break;
         case "-":
