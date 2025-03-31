@@ -38,13 +38,6 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
 
     return (
       <>
-        <div className="sr-only" aria-live="polite" aria-atomic="true">
-          {`이미지 ${
-            swiperInstance?.activeIndex !== undefined
-              ? swiperInstance.activeIndex + 1
-              : initialIndex + 1
-          }/${imageMetadatas.images.length}`}
-        </div>
         <Swiper
           spaceBetween={10}
           slidesPerView={1}

@@ -55,11 +55,10 @@ const NavigationControls = ({
         <TooltipTrigger asChild>
           <button
             onClick={handlePrev}
-            aria-label="이전 이미지(왼쪽 화살표)"
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
-            tabIndex={0}
             type="button"
             style={{ pointerEvents: "auto" }}
+            aria-label="이전 이미지(왼쪽 화살표)"
           >
             <GrPrevious aria-hidden="true" />
           </button>
@@ -73,11 +72,10 @@ const NavigationControls = ({
         <TooltipTrigger asChild>
           <button
             onClick={handleNext}
-            aria-label="다음 이미지(오른쪽 화살표)"
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
-            tabIndex={0}
             type="button"
             style={{ pointerEvents: "auto" }}
+            aria-label="다음 이미지(오른쪽 화살표)"
           >
             <GrNext aria-hidden="true" />
           </button>
@@ -93,11 +91,9 @@ const NavigationControls = ({
             <button
               className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 control-visibility"
               onClick={() => setIsThumbnailExpanded(!isThumbnailExpanded)}
-              aria-label="썸네일 보기(t)"
               aria-expanded={isThumbnailExpanded}
-              aria-controls="thumbnails-panel"
-              tabIndex={0}
               type="button"
+              aria-label="썸네일 보기(t)"
             >
               <PiImages aria-hidden="true" />
             </button>
@@ -113,7 +109,6 @@ const NavigationControls = ({
         <button
           className="absolute top-4 right-16 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
           type="button"
-          tabIndex={0}
           onClick={toggleOrientation}
           aria-label={
             orientation === "portrait" ? "가로 모드로 전환" : "세로 모드로 전환"
@@ -128,9 +123,10 @@ const NavigationControls = ({
           <button
             className="absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
             onClick={toggleFullscreen}
-            aria-label={isFullscreen ? "전체화면 종료" : "전체화면으로 보기"}
-            tabIndex={0}
             type="button"
+            aria-label={
+              isFullscreen ? "전체화면 종료(f)" : "전체화면으로 보기(f)"
+            }
           >
             {isFullscreen ? (
               <IoContract aria-hidden="true" />

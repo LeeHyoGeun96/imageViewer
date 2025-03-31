@@ -64,16 +64,13 @@ const ThumbnailPanel = ({
   return (
     <>
       <section
-        id="thumbnails-panel"
         ref={thumbnailPanelRef}
         className={`absolute left-0 top-0 bg-black bg-opacity-80 w-full md:w-1/2 h-full overflow-y-auto z-30 ${
           isThumbnailExpanded ? "block" : "hidden"
         }`}
-        role="dialog"
-        aria-label="썸네일 갤러리"
         aria-modal={isThumbnailExpanded}
+        aria-label="썸네일 갤러리"
       >
-        (
         <div className="relative">
           <header className="sticky top-0 pt-4 w-full bg-black p-2">
             <div className="flex w-full justify-between items-center px-3">
@@ -81,15 +78,14 @@ const ThumbnailPanel = ({
                 ref={closeButtonRef}
                 onClick={() => setIsThumbnailExpanded(false)}
                 className="bg-gray-800 text-white p-2 rounded hover:bg-gray-700 focus:bg-gray-700 cursor-pointer"
-                aria-label="썸네일 보기 닫기"
-                tabIndex={0}
+                aria-label="닫기"
               >
                 <VscChromeClose aria-hidden="true" />
               </button>
               {totalImagesNumber && (
                 <div
                   className="bg-black/30 text-white px-3 py-1 rounded-full text-sm cursor-default"
-                  aria-live="polite"
+                  aria-hidden="true"
                 >
                   {currentIndex + 1} / {totalImagesNumber}
                 </div>
@@ -97,12 +93,7 @@ const ThumbnailPanel = ({
             </div>
           </header>
 
-          <ul
-            className="grid grid-cols-3 gap-2 p-2"
-            role="listbox"
-            aria-label="이미지 썸네일 목록"
-            tabIndex={0}
-          >
+          <ul className="grid grid-cols-3 gap-2 p-2" tabIndex={0}>
             {Array.from({ length: totalImagesNumber ?? 0 }).map((_, index) => {
               const isLoaded = loadedThumbnails.has(index);
               const thumbnailData = loadedThumbnails.get(index);
