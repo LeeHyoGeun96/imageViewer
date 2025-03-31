@@ -26,7 +26,6 @@ const ThumbnailItem = ({
         aria-label={`${index + 1}번째 이미지${
           currentIndex === index ? " (현재 선택됨)" : ""
         }`}
-        aria-hidden={currentIndex === index ? "false" : "true"}
         type="button"
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
