@@ -1,5 +1,6 @@
 import { ImageData } from "../../api/imageApi";
 import { Skeleton } from "../UI/Skeleton";
+import { memo } from "react";
 
 interface ThumbnailItemProps {
   index: number;
@@ -48,4 +49,4 @@ const ThumbnailItem = ({
   );
 };
 
-export default ThumbnailItem;
+export default memo(ThumbnailItem);
