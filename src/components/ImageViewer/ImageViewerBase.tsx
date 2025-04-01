@@ -140,11 +140,13 @@ export default function ImageViewerBase({
           onThumbnailClick={handleThumbnailClick}
           closeButtonRef={closeButtonRef}
         />
-        <div className="absolute z-20 bottom-4 left-1/2 -translate-x-1/2 text-xs text-white bg-black/60 rounded-full px-3 py-1">
-          스크린 리더 모드가 활성화 되어 있습니다.
-          <br />
-          끄려면 Ctrl + Alt + s 키를 눌러주세요.
-        </div>
+        {screenReaderEnabled && (
+          <div className="absolute z-20 bottom-4 left-1/2 -translate-x-1/2 text-xs text-white bg-black/60 rounded-full px-3 py-1">
+            스크린 리더 모드가 활성화 되어 있습니다.
+            <br />
+            끄려면 Ctrl + Alt + s 키를 눌러주세요.
+          </div>
+        )}
       </section>
     </>
   );
