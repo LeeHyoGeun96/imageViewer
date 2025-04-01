@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../components/ui/tooltip";
+import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
 
 interface NavigationControlsProps {
   onNext: () => void;
@@ -41,6 +42,8 @@ const NavigationControls = ({
   orientation,
   isOrientationSupported,
 }: NavigationControlsProps) => {
+  const { screenReaderEnabled } = useZoomScreenReader();
+
   const handlePrev = () => {
     onPrev();
   };
@@ -55,16 +58,24 @@ const NavigationControls = ({
         <TooltipTrigger asChild>
           <button
             onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer "
             type="button"
             style={{ pointerEvents: "auto" }}
-            aria-label="이전 이미지(왼쪽 화살표)"
+            aria-label={
+              screenReaderEnabled
+                ? "이전 이미지(Ctrl+Alt+왼쪽 화살표)"
+                : "이전 이미지(왼쪽 화살표)"
+            }
           >
             <GrPrevious aria-hidden="true" />
           </button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>이전 이미지(왼쪽 화살표)</p>
+          <p>
+            {screenReaderEnabled
+              ? "이전 이미지(Ctrl+Alt+왼쪽 화살표)"
+              : "이전 이미지(왼쪽 화살표)"}
+          </p>
         </TooltipContent>
       </Tooltip>
 
@@ -72,16 +83,24 @@ const NavigationControls = ({
         <TooltipTrigger asChild>
           <button
             onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer control-visibility"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 text-white px-3 py-5 rounded-2xl hover:bg-black/80 focus:bg-black/80 z-10 cursor-pointer"
             type="button"
             style={{ pointerEvents: "auto" }}
-            aria-label="다음 이미지(오른쪽 화살표)"
+            aria-label={
+              screenReaderEnabled
+                ? "다음 이미지(Ctrl+Alt+오른쪽 화살표)"
+                : "다음 이미지(오른쪽 화살표)"
+            }
           >
             <GrNext aria-hidden="true" />
           </button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>다음 이미지(오른쪽 화살표)</p>
+          <p>
+            {screenReaderEnabled
+              ? "다음 이미지(Ctrl+Alt+오른쪽 화살표)"
+              : "다음 이미지(오른쪽 화살표)"}
+          </p>
         </TooltipContent>
       </Tooltip>
 
@@ -89,17 +108,25 @@ const NavigationControls = ({
         <Tooltip>
           <TooltipTrigger asChild>
             <button
-              className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70 control-visibility"
+              className="absolute top-4 py-2 pl-6 z-10 bg-black/60 bg-opacity-50 cursor-pointer hover:bg-black/80 focus:bg-black/80 text-3xl text-white p-2 rounded-r hover:bg-opacity-70"
               onClick={() => setIsThumbnailExpanded(!isThumbnailExpanded)}
               aria-expanded={isThumbnailExpanded}
               type="button"
-              aria-label="썸네일 보기(t)"
+              aria-label={
+                screenReaderEnabled
+                  ? "썸네일 보기(Ctrl+Alt+t)"
+                  : "썸네일 보기(t)"
+              }
             >
               <PiImages aria-hidden="true" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>썸네일 보기(t)</p>
+            <p>
+              {screenReaderEnabled
+                ? "썸네일 보기(Ctrl+Alt+t)"
+                : "썸네일 보기(t)"}
+            </p>
           </TooltipContent>
         </Tooltip>
       )}
@@ -107,7 +134,7 @@ const NavigationControls = ({
       {/* 화면 방향 전환 버튼 (전체화면 모드이고 API가 지원될 때만 표시) */}
       {isFullscreen && isOrientationSupported && toggleOrientation && (
         <button
-          className="absolute top-4 right-16 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
+          className="absolute top-4 right-16 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 "
           type="button"
           onClick={toggleOrientation}
           aria-label={
@@ -121,11 +148,17 @@ const NavigationControls = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <button
-            className="absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80 control-visibility"
+            className="absolute top-4 right-4 z-10 bg-black/60 text-3xl text-white p-2 rounded hover:bg-black/80 focus:bg-black/80"
             onClick={toggleFullscreen}
             type="button"
             aria-label={
-              isFullscreen ? "전체화면 종료(f)" : "전체화면으로 보기(f)"
+              isFullscreen
+                ? screenReaderEnabled
+                  ? "전체화면 종료(Ctrl+Alt+f)"
+                  : "전체화면 종료(f)"
+                : screenReaderEnabled
+                ? "전체화면으로 보기(Ctrl+Alt+f)"
+                : "전체화면으로 보기(f)"
             }
           >
             {isFullscreen ? (
@@ -136,13 +169,21 @@ const NavigationControls = ({
           </button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{isFullscreen ? "전체화면 종료(f)" : "전체화면으로 보기(f)"}</p>
+          <p>
+            {isFullscreen
+              ? screenReaderEnabled
+                ? "전체화면 종료(Ctrl+Alt+f)"
+                : "전체화면 종료(f)"
+              : screenReaderEnabled
+              ? "전체화면으로 보기(Ctrl+Alt+f)"
+              : "전체화면으로 보기(f)"}
+          </p>
         </TooltipContent>
       </Tooltip>
 
       {totalImagesNumber && (
         <div
-          className="absolute z-20 bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default control-visibility"
+          className="absolute z-20 bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm cursor-default "
           role="status"
         >
           {currentIndex + 1} / {totalImagesNumber}

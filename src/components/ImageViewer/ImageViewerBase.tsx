@@ -10,6 +10,7 @@ import { useThumbnailLoader } from "../../hooks/ImageViewer/useThumbnailLoader";
 import { useImageSlider } from "../../hooks/ImageViewer/useImageSlider";
 import { useFocusManagement } from "../../hooks/ImageViewer/useFocusManagement";
 import { useScreenOrientation } from "../../hooks/ImageViewer/useScreenOrientation";
+import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
 
 interface ImageViewerProps {
   /** 현재 표시할 이미지의 인덱스 */
@@ -67,6 +68,7 @@ export default function ImageViewerBase({
     isThumbnailExpanded: isThumbnailExpanded,
     setIsThumbnailExpanded: setIsThumbnailExpanded,
   });
+  const { screenReaderEnabled } = useZoomScreenReader();
 
   useEffect(() => {
     if (!isFullscreen && isOrientationSupported) {
@@ -81,53 +83,69 @@ export default function ImageViewerBase({
   };
 
   return (
-    <section
-      className={`relative rounded-lg overflow-hidden group aspect-[4/3] max-h-[80vh]   ${
-        isFullscreen ? "h-screen bg-black" : ""
-      } ${containerClass}`}
-      ref={containerRef}
-      aria-label="이미지 갤러리"
-      tabIndex={0}
-    >
-      {/* 네비게이션 컨트롤 */}
-      <NavigationControls
-        toggleFullscreen={toggleFullscreen}
-        isFullscreen={isFullscreen}
-        setIsThumbnailExpanded={setIsThumbnailExpanded}
-        isThumbnailExpanded={isThumbnailExpanded}
-        currentIndex={currentIndex}
-        totalImagesNumber={imageMetadatas?.images.length}
-        totalThumbnailsNumber={thumbnailMetadatas?.images.length}
-        onNext={slideNext}
-        onPrev={slidePrev}
-        orientation={orientation}
-        isOrientationSupported={isOrientationSupported}
-        toggleOrientation={toggleOrientation}
-      />
-
-      {/* 이미지 슬라이더 컨테이너 */}
-
-      {imageMetadatas && imageMetadatas.images.length > 0 ? (
-        <SwiperGallery
-          ref={galleryRef}
-          imageMetadatas={imageMetadatas}
-          initialIndex={currentIndex}
-          onSlideChange={handleSlideChange}
+    <>
+      <p className="sr-only" tabIndex={0}>
+        스크린 리더를 사용하시는 경우, Ctrl + Alt + s키를 누르면 스크린 리더
+        전용 단축키로 변경됩니다.
+      </p>
+      <div role="status" aria-live="polite" className="sr-only">
+        {screenReaderEnabled
+          ? "스크린 리더 모드가 활성화되었습니다"
+          : "스크린 리더 모드가 비활성화되었습니다"}
+      </div>
+      <section
+        className={`relative rounded-lg overflow-hidden group aspect-[4/3] max-h-[80vh]   ${
+          isFullscreen ? "h-screen bg-black" : ""
+        } ${containerClass}`}
+        ref={containerRef}
+        aria-label="이미지 갤러리"
+        tabIndex={0}
+      >
+        {/* 네비게이션 컨트롤 */}
+        <NavigationControls
+          toggleFullscreen={toggleFullscreen}
+          isFullscreen={isFullscreen}
+          setIsThumbnailExpanded={setIsThumbnailExpanded}
+          isThumbnailExpanded={isThumbnailExpanded}
+          currentIndex={currentIndex}
+          totalImagesNumber={imageMetadatas?.images.length}
+          totalThumbnailsNumber={thumbnailMetadatas?.images.length}
+          onNext={slideNext}
+          onPrev={slidePrev}
+          orientation={orientation}
+          isOrientationSupported={isOrientationSupported}
+          toggleOrientation={toggleOrientation}
         />
-      ) : (
-        <Skeleton aria-label="이미지 로딩 중" spinnerSize={16} />
-      )}
 
-      {/* 썸네일 패널 */}
-      <ThumbnailPanel
-        isThumbnailExpanded={isThumbnailExpanded}
-        setIsThumbnailExpanded={setIsThumbnailExpanded}
-        currentIndex={currentIndex}
-        totalImagesNumber={thumbnailMetadatas?.images.length}
-        loadedThumbnails={loadedThumbnails}
-        onThumbnailClick={handleThumbnailClick}
-        closeButtonRef={closeButtonRef}
-      />
-    </section>
+        {/* 이미지 슬라이더 컨테이너 */}
+
+        {imageMetadatas && imageMetadatas.images.length > 0 ? (
+          <SwiperGallery
+            ref={galleryRef}
+            imageMetadatas={imageMetadatas}
+            initialIndex={currentIndex}
+            onSlideChange={handleSlideChange}
+          />
+        ) : (
+          <Skeleton aria-label="이미지 로딩 중" spinnerSize={16} />
+        )}
+
+        {/* 썸네일 패널 */}
+        <ThumbnailPanel
+          isThumbnailExpanded={isThumbnailExpanded}
+          setIsThumbnailExpanded={setIsThumbnailExpanded}
+          currentIndex={currentIndex}
+          totalImagesNumber={thumbnailMetadatas?.images.length}
+          loadedThumbnails={loadedThumbnails}
+          onThumbnailClick={handleThumbnailClick}
+          closeButtonRef={closeButtonRef}
+        />
+        <div className="absolute z-20 bottom-4 left-1/2 -translate-x-1/2 text-xs text-white bg-black/60 rounded-full px-3 py-1">
+          스크린 리더 모드가 활성화 되어 있습니다.
+          <br />
+          끄려면 Ctrl + Alt + s 키를 눌러주세요.
+        </div>
+      </section>
+    </>
   );
 }

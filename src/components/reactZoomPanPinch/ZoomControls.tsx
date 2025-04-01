@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "../../components/ui/tooltip";
 import { memo } from "react";
+import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
 
 interface ZoomControlsProps {
   zoomIn: () => void;
@@ -21,6 +22,8 @@ const ZoomControls = ({
   resetTransform,
   isCurrentImage,
 }: ZoomControlsProps) => {
+  const { screenReaderEnabled } = useZoomScreenReader();
+
   return (
     <TooltipProvider>
       <div
@@ -35,13 +38,13 @@ const ZoomControls = ({
               className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => zoomIn()}
               tabIndex={isCurrentImage ? 0 : -1}
-              aria-label="확대(+)"
+              aria-label={screenReaderEnabled ? "확대(Ctrl+Alt++)" : "확대(+)"}
             >
               <FiPlus aria-hidden="true" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>확대(+)</p>
+            <p>{screenReaderEnabled ? "확대(Ctrl+Alt++)" : "확대(+)"}</p>
           </TooltipContent>
         </Tooltip>
 
@@ -52,13 +55,13 @@ const ZoomControls = ({
               className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => zoomOut()}
               tabIndex={isCurrentImage ? 0 : -1}
-              aria-label="축소(-)"
+              aria-label={screenReaderEnabled ? "축소(Ctrl+Alt+-)" : "축소(-)"}
             >
               <FiMinus aria-hidden="true" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>축소(-)</p>
+            <p>{screenReaderEnabled ? "축소(Ctrl+Alt+-)" : "축소(-)"}</p>
           </TooltipContent>
         </Tooltip>
 
@@ -69,13 +72,21 @@ const ZoomControls = ({
               className="text-white bg-black/60 hover:bg-black/80 focus:bg-black/80 rounded cursor-pointer p-4"
               onClick={() => resetTransform()}
               tabIndex={isCurrentImage ? 0 : -1}
-              aria-label="배율 초기화(0)"
+              aria-label={
+                screenReaderEnabled
+                  ? "배율 초기화(Ctrl+Alt+0)"
+                  : "배율 초기화(0)"
+              }
             >
               <IoReloadSharp aria-hidden="true" />
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>배율 초기화(0)</p>
+            <p>
+              {screenReaderEnabled
+                ? "배율 초기화(Ctrl+Alt+0)"
+                : "배율 초기화(0)"}
+            </p>
           </TooltipContent>
         </Tooltip>
       </div>

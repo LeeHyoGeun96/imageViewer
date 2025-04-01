@@ -25,6 +25,11 @@
   .bg-brand {
     background-color: #3490dc;
   }
+
+  .sr-only {
+    @apply absolute inset-0 overflow-hidden;
+    clip-path: inset(50%);
+  }
 }
 
 /* width */

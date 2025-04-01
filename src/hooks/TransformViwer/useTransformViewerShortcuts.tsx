@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useZoomScreenReader } from "../useZoomScreenReader";
 
 interface TransformViewerShortcutProps {
   zoomIn: () => void;
@@ -18,6 +19,8 @@ export function useTransformViewerShortcuts({
   isCurrentImage,
   handleKeyboardPanning,
 }: TransformViewerShortcutProps) {
+  const { screenReaderEnabled } = useZoomScreenReader();
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
@@ -28,32 +31,60 @@ export function useTransformViewerShortcuts({
         return;
       }
 
-      switch (e.key) {
-        case "+":
+      // 스크린 리더 모드에 따라 다른 단축키 처리
+      if (screenReaderEnabled) {
+        // 스크린 리더 모드가 활성화된 경우 Ctrl+Alt 조합 필요
+        if (e.key === "+" && e.ctrlKey && e.altKey) {
           zoomIn();
-          break;
-        case "-":
+        } else if (e.key === "-" && e.ctrlKey && e.altKey) {
           zoomOut();
-          break;
-        case "0":
+        } else if (e.key === "0" && e.ctrlKey && e.altKey) {
           resetTransform();
-          break;
-        case "ArrowLeft":
+        } else if (e.key === "ArrowLeft" && e.ctrlKey && e.altKey) {
           handleKeyboardPanning("left", e);
-          break;
-        case "ArrowRight":
+        } else if (e.key === "ArrowRight" && e.ctrlKey && e.altKey) {
           handleKeyboardPanning("right", e);
-          break;
-        case "ArrowUp":
+        } else if (e.key === "ArrowUp" && e.ctrlKey && e.altKey) {
           handleKeyboardPanning("up", e);
-          break;
-        case "ArrowDown":
+        } else if (e.key === "ArrowDown" && e.ctrlKey && e.altKey) {
           handleKeyboardPanning("down", e);
-          break;
+        }
+      } else {
+        // 일반 모드
+        switch (e.key) {
+          case "+":
+            zoomIn();
+            break;
+          case "-":
+            zoomOut();
+            break;
+          case "0":
+            resetTransform();
+            break;
+          case "ArrowLeft":
+            handleKeyboardPanning("left", e);
+            break;
+          case "ArrowRight":
+            handleKeyboardPanning("right", e);
+            break;
+          case "ArrowUp":
+            handleKeyboardPanning("up", e);
+            break;
+          case "ArrowDown":
+            handleKeyboardPanning("down", e);
+            break;
+        }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [zoomIn, zoomOut, resetTransform, isCurrentImage, handleKeyboardPanning]);
+  }, [
+    zoomIn,
+    zoomOut,
+    resetTransform,
+    isCurrentImage,
+    handleKeyboardPanning,
+    screenReaderEnabled,
+  ]);
 }
