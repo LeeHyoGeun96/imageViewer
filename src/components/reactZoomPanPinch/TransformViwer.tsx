@@ -10,11 +10,11 @@ import useSwipeMessage from "../../hooks/TransformViwer/useSwipeMessage";
 import useZoomControl from "../../hooks/TransformViwer/useZoomControl";
 import usePanningControl from "../../hooks/TransformViwer/usePanningControl";
 import { useTransformViewerShortcuts } from "../../hooks/TransformViwer/useTransformViewerShortcuts";
+import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
 
 interface TransformViwerProps {
   currentImageSrcMetadata?: ImageData;
   currentIndex: number;
-  setIsZoomed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TransformViwer = ({
@@ -24,12 +24,10 @@ const TransformViwer = ({
     alt: "",
   },
   currentIndex,
-  setIsZoomed,
 }: TransformViwerProps) => {
   const swiper = useSwiper();
   const isCurrentImage = currentImageSrcMetadata.id === currentIndex;
   const {
-    isZoomed,
     transformRef,
     handleZoomChange,
     handleZoomStop,
@@ -39,10 +37,10 @@ const TransformViwer = ({
     customResetTransform,
     customSetTransform,
   } = useZoomControl({ swiper, isCurrentImage });
-  const { showMessage, showSwipeMessage } = useSwipeMessage(isZoomed);
+  const { showMessage, showSwipeMessage } = useSwipeMessage();
+  const { isZoomed } = useZoomScreenReader();
   const { debouncedHandlePanning, handlePanningStop, handleKeyboardPanning } =
     usePanningControl({
-      isZoomed,
       showSwipeMessage,
       setTransform: customSetTransform,
       isCurrentImage,
@@ -62,10 +60,6 @@ const TransformViwer = ({
       transformRef.current.resetTransform(0);
     }
   }, [currentImageSrcMetadata.id, transformRef]);
-
-  useEffect(() => {
-    setIsZoomed(isZoomed);
-  }, [isZoomed, setIsZoomed]);
 
   return (
     <TransformWrapper

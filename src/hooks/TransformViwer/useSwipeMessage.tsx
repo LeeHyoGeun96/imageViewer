@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useZoomScreenReader } from "../useZoomScreenReader";
 
-function useSwipeMessage(isZoomed: boolean) {
+function useSwipeMessage() {
   const [showMessage, setShowMessage] = useState(false);
   const messageTimerRef = useRef<number | null>(null);
   const lastMessageTimeRef = useRef<number>(0);
+  const { isZoomed } = useZoomScreenReader();
 
   const showSwipeMessage = useCallback(() => {
     if (!isZoomed) return;

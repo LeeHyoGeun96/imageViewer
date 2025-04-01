@@ -15,12 +15,11 @@ interface SwiperGalleryProps {
   imageMetadatas: ImagesMetadatasResponse;
   initialIndex: number;
   onSlideChange: (index: number) => void;
-  setIsZoomed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // forwardRef를 사용하여 ref 노출
 const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
-  ({ imageMetadatas, initialIndex, onSlideChange, setIsZoomed }, ref) => {
+  ({ imageMetadatas, initialIndex, onSlideChange }, ref) => {
     const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(
       null
     );
@@ -54,7 +53,6 @@ const SwiperGallery = forwardRef<SwiperGalleryRef, SwiperGalleryProps>(
                 <TransformViwer
                   currentImageSrcMetadata={image}
                   currentIndex={initialIndex}
-                  setIsZoomed={setIsZoomed}
                 />
               </div>
             </SwiperSlide>

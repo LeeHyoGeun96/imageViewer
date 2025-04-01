@@ -1,7 +1,8 @@
 import "./index.css";
-import ImageViewer from "./components/ImageViewer";
+
 import { useGalleryData } from "./hooks/useGalleryData";
 import { useImagePreloader } from "./hooks/useImagePreloader";
+import ImageViewer from "./components/ImageViewer/ImageViewer";
 
 function App() {
   // 갤러리 데이터 관리

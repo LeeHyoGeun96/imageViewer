@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useZoomScreenReader } from "../useZoomScreenReader";
 
 interface UseKeyboardNavigationProps {
   onPrev: () => void;
@@ -8,7 +9,6 @@ interface UseKeyboardNavigationProps {
   setIsThumbnailExpanded?: React.Dispatch<React.SetStateAction<boolean>>;
   isThumbnailExpanded?: boolean;
   enabled?: boolean;
-  isZoomed?: boolean;
 }
 
 export function useKeyboardNavigation({
@@ -19,8 +19,8 @@ export function useKeyboardNavigation({
   setIsThumbnailExpanded,
   isThumbnailExpanded = false,
   enabled = true,
-  isZoomed = false,
 }: UseKeyboardNavigationProps) {
+  const { isZoomed } = useZoomScreenReader();
   useEffect(() => {
     if (!enabled) return;
 

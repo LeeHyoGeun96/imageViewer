@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { ImagesMetadatasResponse } from "../api/imageApi";
-import { Skeleton } from "./UI/Skeleton";
-import ThumbnailPanel from "./ImageViewer/ThumbnailPanel";
-import NavigationControls from "./ImageViewer/NavigationControls";
-import SwiperGallery from "./SwiperGallery/SwiperGallery";
-import { useKeyboardNavigation } from "../hooks/ImageViewer/useKeyboardNavigation";
-import { useFullscreen } from "../hooks/ImageViewer/useFullscreen";
-import { useThumbnailLoader } from "../hooks/ImageViewer/useThumbnailLoader";
-import { useImageSlider } from "../hooks/ImageViewer/useImageSlider";
-import { useFocusManagement } from "../hooks/ImageViewer/useFocusManagement";
-import { useScreenOrientation } from "../hooks/ImageViewer/useScreenOrientation";
+import { ImagesMetadatasResponse } from "../../api/imageApi";
+import { Skeleton } from "../UI/Skeleton";
+import ThumbnailPanel from "./ThumbnailPanel";
+import NavigationControls from "./NavigationControls";
+import SwiperGallery from "../SwiperGallery/SwiperGallery";
+import { useKeyboardNavigation } from "../../hooks/ImageViewer/useKeyboardNavigation";
+import { useFullscreen } from "../../hooks/ImageViewer/useFullscreen";
+import { useThumbnailLoader } from "../../hooks/ImageViewer/useThumbnailLoader";
+import { useImageSlider } from "../../hooks/ImageViewer/useImageSlider";
+import { useFocusManagement } from "../../hooks/ImageViewer/useFocusManagement";
+import { useScreenOrientation } from "../../hooks/ImageViewer/useScreenOrientation";
 
 interface ImageViewerProps {
   /** 현재 표시할 이미지의 인덱스 */
@@ -35,7 +35,7 @@ interface ImageViewerProps {
   onIndexChange: (index: number) => void;
 }
 
-export default function ImageViewer({
+export default function ImageViewerBase({
   currentIndex,
   thumbnailMetadatas = { images: [] },
   containerClass = "",
@@ -46,7 +46,6 @@ export default function ImageViewer({
   // Refs
   const containerRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const [isZoomed, setIsZoomed] = useState(false);
 
   // 커스텀 훅 사용
   const { galleryRef, handleSlideChange, slidePrev, slideNext, slideTo } =
@@ -67,7 +66,6 @@ export default function ImageViewer({
     onEscapeExpanded: () => setIsThumbnailExpanded(false),
     isThumbnailExpanded: isThumbnailExpanded,
     setIsThumbnailExpanded: setIsThumbnailExpanded,
-    isZoomed: isZoomed,
   });
 
   useEffect(() => {
@@ -115,7 +113,6 @@ export default function ImageViewer({
           imageMetadatas={imageMetadatas}
           initialIndex={currentIndex}
           onSlideChange={handleSlideChange}
-          setIsZoomed={setIsZoomed}
         />
       ) : (
         <Skeleton aria-label="이미지 로딩 중" spinnerSize={16} />
@@ -130,7 +127,6 @@ export default function ImageViewer({
         loadedThumbnails={loadedThumbnails}
         onThumbnailClick={handleThumbnailClick}
         closeButtonRef={closeButtonRef}
-        setIsZoomed={setIsZoomed}
       />
     </section>
   );

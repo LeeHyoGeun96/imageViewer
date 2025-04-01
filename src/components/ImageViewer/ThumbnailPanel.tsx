@@ -11,7 +11,6 @@ interface ThumbnailPanelProps {
   loadedThumbnails: Map<number, ImageData>;
   onThumbnailClick: (index: number) => void;
   closeButtonRef: React.RefObject<HTMLButtonElement | null>;
-  setIsZoomed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ThumbnailPanel = ({

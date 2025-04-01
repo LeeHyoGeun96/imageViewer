@@ -2,9 +2,9 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
 import type { ReactZoomPanPinchRef as ReactZoomPanPinchRefType } from "react-zoom-pan-pinch";
+import { useZoomScreenReader } from "../useZoomScreenReader";
 
 interface UsePanningControlProps {
-  isZoomed: boolean;
   showSwipeMessage: () => void;
   setTransform: (positionX: number, positionY: number) => void;
   isCurrentImage: boolean;
@@ -14,7 +14,6 @@ interface UsePanningControlProps {
 const BASE_PAN_STEP = 100;
 
 function usePanningControl({
-  isZoomed,
   showSwipeMessage,
   setTransform,
   isCurrentImage,
@@ -24,6 +23,7 @@ function usePanningControl({
   const panDirectionRef = useRef<"left" | "right" | null>(null);
   const boundaryReachedRef = useRef<"left" | "right" | null>(null);
   const isPanningRef = useRef(false); // 현재 터치/마우스로 패닝 중인지 추적
+  const { isZoomed } = useZoomScreenReader();
 
   const handlePanning = useCallback(
     (ref: ReactZoomPanPinchRef) => {
