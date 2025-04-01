@@ -9,7 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../components/ui/tooltip";
-import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
+import { useZoomScreenReaderStore } from "../../store/useZoomScreenReaderStore";
 
 interface NavigationControlsProps {
   onNext: () => void;
@@ -42,7 +42,9 @@ const NavigationControls = ({
   orientation,
   isOrientationSupported,
 }: NavigationControlsProps) => {
-  const { screenReaderEnabled } = useZoomScreenReader();
+  const screenReaderEnabled = useZoomScreenReaderStore(
+    (state) => state.screenReaderEnabled
+  );
 
   const handlePrev = () => {
     onPrev();
@@ -194,4 +196,11 @@ const NavigationControls = ({
 };
 
 // memo로 감싸서 내보내기
-export default memo(NavigationControls);
+export default memo(NavigationControls, (prev, next) => {
+  // 중요 props만 비교하여 불필요한 리렌더링 방지
+  return (
+    prev.currentIndex === next.currentIndex &&
+    prev.isFullscreen === next.isFullscreen &&
+    prev.isThumbnailExpanded === next.isThumbnailExpanded
+  );
+});

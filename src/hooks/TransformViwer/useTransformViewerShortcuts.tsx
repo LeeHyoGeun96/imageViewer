@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useZoomScreenReader } from "../useZoomScreenReader";
+import { useZoomScreenReaderStore } from "../../store/useZoomScreenReaderStore";
 
 interface TransformViewerShortcutProps {
   zoomIn: () => void;
@@ -19,7 +19,9 @@ export function useTransformViewerShortcuts({
   isCurrentImage,
   handleKeyboardPanning,
 }: TransformViewerShortcutProps) {
-  const { screenReaderEnabled } = useZoomScreenReader();
+  const screenReaderEnabled = useZoomScreenReaderStore(
+    (state) => state.screenReaderEnabled
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

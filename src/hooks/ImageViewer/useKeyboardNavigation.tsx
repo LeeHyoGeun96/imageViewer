@@ -1,5 +1,5 @@
+import { useZoomScreenReaderStore } from "../../store/useZoomScreenReaderStore";
 import { useEffect } from "react";
-import { useZoomScreenReader } from "../useZoomScreenReader";
 
 interface UseKeyboardNavigationProps {
   onPrev: () => void;
@@ -20,8 +20,13 @@ export function useKeyboardNavigation({
   isThumbnailExpanded = false,
   enabled = true,
 }: UseKeyboardNavigationProps) {
-  const { isZoomed, setScreenReaderEnabled, screenReaderEnabled } =
-    useZoomScreenReader();
+  const isZoomed = useZoomScreenReaderStore((state) => state.isZoomed);
+  const screenReaderEnabled = useZoomScreenReaderStore(
+    (state) => state.screenReaderEnabled
+  );
+  const setScreenReaderEnabled = useZoomScreenReaderStore(
+    (state) => state.setScreenReaderEnabled
+  );
   useEffect(() => {
     if (!enabled) return;
 

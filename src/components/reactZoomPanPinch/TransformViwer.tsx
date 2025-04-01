@@ -10,7 +10,7 @@ import useSwipeMessage from "../../hooks/TransformViwer/useSwipeMessage";
 import useZoomControl from "../../hooks/TransformViwer/useZoomControl";
 import usePanningControl from "../../hooks/TransformViwer/usePanningControl";
 import { useTransformViewerShortcuts } from "../../hooks/TransformViwer/useTransformViewerShortcuts";
-import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
+import { useZoomScreenReaderStore } from "../../store/useZoomScreenReaderStore";
 
 interface TransformViwerProps {
   currentImageSrcMetadata?: ImageData;
@@ -38,7 +38,7 @@ const TransformViwer = ({
     customSetTransform,
   } = useZoomControl({ swiper, isCurrentImage });
   const { showMessage, showSwipeMessage } = useSwipeMessage();
-  const { isZoomed } = useZoomScreenReader();
+  const isZoomed = useZoomScreenReaderStore((state) => state.isZoomed);
   const { debouncedHandlePanning, handlePanningStop, handleKeyboardPanning } =
     usePanningControl({
       showSwipeMessage,

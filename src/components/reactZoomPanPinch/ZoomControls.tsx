@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "../../components/ui/tooltip";
 import { memo } from "react";
-import { useZoomScreenReader } from "../../hooks/useZoomScreenReader";
+import { useZoomScreenReaderStore } from "../../store/useZoomScreenReaderStore";
 
 interface ZoomControlsProps {
   zoomIn: () => void;
@@ -22,7 +22,9 @@ const ZoomControls = ({
   resetTransform,
   isCurrentImage,
 }: ZoomControlsProps) => {
-  const { screenReaderEnabled } = useZoomScreenReader();
+  const screenReaderEnabled = useZoomScreenReaderStore(
+    (state) => state.screenReaderEnabled
+  );
 
   return (
     <TooltipProvider>

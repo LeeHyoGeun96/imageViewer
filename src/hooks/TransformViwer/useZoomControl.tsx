@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
 import type Swiper from "swiper";
-import { useZoomScreenReader } from "../useZoomScreenReader";
+import { useZoomScreenReaderStore } from "../../store/useZoomScreenReaderStore";
 
 type onTransformedProps = {
   scale: number;
@@ -16,7 +16,7 @@ interface UseZoomControlProps {
 
 function useZoomControl({ swiper, isCurrentImage }: UseZoomControlProps) {
   const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
-  const { setIsZoomed } = useZoomScreenReader();
+  const setIsZoomed = useZoomScreenReaderStore((state) => state.setIsZoomed);
   const handleZoomChange = useCallback(
     (ref: ReactZoomPanPinchRef) => {
       if (!isCurrentImage) {
@@ -74,7 +74,7 @@ function useZoomControl({ swiper, isCurrentImage }: UseZoomControlProps) {
         setIsZoomed(transformRef.current.state.scale > 1.05);
       }
     }, 100);
-  }, [isCurrentImage]);
+  }, [isCurrentImage, setIsZoomed]);
 
   const customResetTransform = useCallback(() => {
     if (!isCurrentImage) {
